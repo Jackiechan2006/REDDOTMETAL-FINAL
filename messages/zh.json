@@ -1,0 +1,625 @@
+{
+  "home": {
+    "title": "红点金属 | 新加坡值得信赖的废金属回收与交易商",
+    "description": "红点金属是新加坡领先的B2B废金属回收与交易公司。当日回收、透明定价、持牌认证。",
+    "hero": {
+      "title": "新加坡可靠的废金属回收与贸易",
+      "subtitle": "",
+      "ctaPickup": "预约回收",
+      "ctaServices": "我们的服务",
+      "ctaWhatsApp": "联系我们 WhatsApp",
+      "ctaCall": "立即致电"
+    },
+    "stats": {
+      "years": "年经验",
+      "tons": "吨已收集",
+      "clients": "服务客户",
+      "pickups": "当天取件"
+    },
+    "services": {
+      "title": "我们的服务",
+      "subtitle": "为全新加坡企业提供全面的废金属解决方案",
+      "items": [
+        {
+          "title": "废料收集",
+          "desc": "为各种规模的企业提供定期和按需废金属收集服务。"
+        },
+        {
+          "title": "金属贸易",
+          "desc": "以具有竞争力的市场价格买卖铁系和非铁系金属。"
+        },
+        {
+          "title": "工业取件",
+          "desc": "为工厂、船厂和建筑工地提供重型取件服务。"
+        },
+        {
+          "title": "回收利用",
+          "desc": "符合所有监管标准的环保回收服务。"
+        },
+        {
+          "title": "现场取件",
+          "desc": "我们直接上门收取废金属，无需您自行运输。"
+        }
+      ]
+    },
+    "howItWorks": {
+      "title": "运作方式",
+      "subtitle": "从请求到即时付款，只需四个简单步骤",
+      "steps": [
+        {
+          "title": "提交请求",
+          "desc": "填写在线表格、通过WhatsApp联系我们或致电我们。"
+        },
+        {
+          "title": "安排回收",
+          "desc": "我们安排方便的当日回收到您的位置。"
+        },
+        {
+          "title": "称重分级",
+          "desc": "您的废料在现场或我们的设施中进行称重和分级。"
+        },
+        {
+          "title": "即时收款",
+          "desc": "通过银行转账、PayNow或现金即时收到付款。"
+        }
+      ]
+    },
+    "whatWeCollect": {
+      "title": "我们回收的材料",
+      "subtitle": "我们接受所有类型的黑色金属和有色金属",
+      "items": [
+        {
+          "name": "钢",
+          "desc": "结构钢、梁、管、板材和废钢"
+        },
+        {
+          "name": "铁",
+          "desc": "铸铁、锻铁、重熔铁"
+        },
+        {
+          "name": "铜",
+          "desc": "光亮铜、铜线、铜管、混合铜"
+        },
+        {
+          "name": "铝",
+          "desc": "挤压件、板材、罐、轮辋、商业铝"
+        },
+        {
+          "name": "黄铜",
+          "desc": "黄铜废料、阀门、配件、棒材"
+        },
+        {
+          "name": "不锈钢",
+          "desc": "304、316等级、板材、管材"
+        },
+        {
+          "name": "铅",
+          "desc": "铅电池、铅板、铅管"
+        },
+        {
+          "name": "锌",
+          "desc": "锌废料、压铸锌、镀锌"
+        }
+      ]
+    },
+    "whoWeServe": {
+      "title": "我们的服务对象",
+      "subtitle": "受到各行各业企业的信赖",
+      "items": [
+        {
+          "sector": "建筑与拆除",
+          "desc": "钢筋、结构钢、来自工地的铜管"
+        },
+        {
+          "sector": "制造与加工",
+          "desc": "边角料、生产废料、废旧机械"
+        },
+        {
+          "sector": "船厂与海洋",
+          "desc": "钢板、电缆、有色金属海洋废料"
+        },
+        {
+          "sector": "汽车与工程",
+          "desc": "报废车辆、发动机缸体、铝制零件"
+        },
+        {
+          "sector": "零售与酒店",
+          "desc": "厨房设备、暖通空调机组、货架、固定装置"
+        },
+        {
+          "sector": "政府与机构",
+          "desc": "基础设施废料、学校和医院翻新"
+        }
+      ]
+    },
+    "whyUs": {
+      "title": "为什么选择红点金属",
+      "subtitle": "我们让废金属回收变得简单、透明且有利可图",
+      "features": [
+        {
+          "title": "当日服务",
+          "desc": "我们在几小时内响应，并在当天回收。"
+        },
+        {
+          "title": "免费回收",
+          "desc": "无隐藏费用。我们免费收集您的废金属。"
+        },
+        {
+          "title": "即时付款",
+          "desc": "通过PayNow、银行转账或现金即时获得付款。"
+        },
+        {
+          "title": "透明定价",
+          "desc": "实时市场价格，提供清晰的重量和价格明细。"
+        },
+        {
+          "title": "持牌认证",
+          "desc": "由NEA完全认证。遵守所有法规。"
+        },
+        {
+          "title": "覆盖全岛",
+          "desc": "服务全新加坡 — 东、西、北、南、中。"
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "客户评价",
+      "subtitle": "受到全新加坡数百家企业的信赖",
+      "items": [
+        {
+          "name": "caveman44",
+          "role": "买家",
+          "yearsAgo": "4年前",
+          "text": "独特的列表。非常容易打交道！强烈推荐。",
+          "rating": 5
+        },
+        {
+          "name": "triadii",
+          "role": "卖家",
+          "yearsAgo": "4年前",
+          "text": "非常果断的买家！谢谢 🙏🤗",
+          "rating": 5
+        },
+        {
+          "name": "dandorje",
+          "role": "买家",
+          "yearsAgo": "5年前",
+          "text": "非常好、友善、乐于助人，总是竭尽全力，回复迅速，交易顺畅。一定会再次合作。",
+          "rating": 5
+        },
+        {
+          "name": "woshicaishenye",
+          "role": "买家",
+          "yearsAgo": "5年前",
+          "text": "有史以来最好的交易。卖家坚守原则，即使有更高的出价。强烈推荐。谢谢。",
+          "rating": 5
+        },
+        {
+          "name": "maggielim62",
+          "role": "买家",
+          "yearsAgo": "6年前",
+          "text": "卖家非常响应、友善。物品状况良好。谢谢。",
+          "rating": 5
+        },
+        {
+          "name": "sforla",
+          "role": "卖家",
+          "yearsAgo": "8年前",
+          "text": "极其耐心、真诚、有礼貌的买家。交易顺利无阻。希望再次合作。谢谢。",
+          "rating": 5
+        }
+      ]
+    },
+    "serviceArea": {
+      "title": "我们的服务区域",
+      "subtitle": "我们覆盖整个新加坡岛",
+      "areas": [],
+      "cta": "我们覆盖所有工业区，包括裕廊工业区、大士、双溪加株、Senoko等。联系我们在全新加坡任何地方提供当日回收服务。",
+      "coverage": "我们在新加坡全岛提供废金属收集服务。从西部的裕廊到东部的樟宜，从北部的兀兰到南部的圣淘沙——无论您在哪里，我们都会上门服务。"
+    },
+    "prices": {
+      "title": "当前废金属价格",
+      "subtitle": "具有竞争力的市场价格，定期更新。价格为每公斤。",
+      "table": {
+        "headerMetal": "金属类型",
+        "headerPrice": "价格（新元/公斤）",
+        "headerCondition": "状况"
+      },
+      "note": "价格为参考价，根据市场情况可能发生变化。致电或通过WhatsApp联系我们获取固定报价。",
+      "cta": "获取固定报价"
+    },
+    "cta": {
+      "title": "准备好将废料变成现金了吗？",
+      "button": "立即预约回收",
+      "whatsapp": "在 WhatsApp 上聊天"
+    },
+    "contact": {
+      "title": "联系我们",
+      "subtitle": "有问题吗？请联系我们的团队。"
+    }
+  },
+  "about": {
+    "title": "关于我们 | 红点金属",
+    "description": "了解红点金属 — 新加坡值得信赖的B2B废金属回收与交易公司。",
+    "hero": {
+      "title": "关于红点金属",
+      "subtitle": "新加坡在废金属回收与交易方面值得信赖的合作伙伴"
+    },
+    "overview": "红点金属是一家总部位于新加坡的B2B废金属回收与交易公司，致力于提供可靠、透明且对环境负责的金属废物管理解决方案。",
+    "mission": "通过提供卓越的服务、公平的定价和可持续的回收实践，成为新加坡最值得信赖的废金属合作伙伴。",
+    "vision": "引领向循环经济的转型，使每一块金属都能被回收、再生和再利用。",
+    "values": [
+      {
+        "title": "诚信",
+        "desc": "在每笔交易中诚实称重、透明定价和道德经营。"
+      },
+      {
+        "title": "可靠",
+        "desc": "当日回收、准时付款和始终如一的服务质量。"
+      },
+      {
+        "title": "可持续",
+        "desc": "致力于超越监管要求的环保回收。"
+      }
+    ],
+    "team": "我们的团队汇集了金属交易、物流和环境合规方面的专业知识。"
+  },
+  "services": {
+    "title": "我们的服务 | 红点金属",
+    "description": "新加坡全面的B2B废金属回收与交易服务。",
+    "hero": {
+      "title": "我们的服务",
+      "subtitle": "为新加坡企业提供端到端的废金属解决方案"
+    },
+    "items": [
+      {
+        "title": "废料收集",
+        "desc": "我们为全新加坡企业提供定期和按需收集服务。",
+        "process": "致电或在线预约 → 我们确认时间 → 团队到达并装载废料 → 您获得过磅单和付款"
+      },
+      {
+        "title": "金属交易",
+        "desc": "我们以有竞争力的市场价格买卖各种黑色金属和有色金属。",
+        "process": "联系我们提供金属类型和数量 → 我们提供实时报价 → 商定价格 → 安排送货或收集 → 24小时内付款"
+      },
+      {
+        "title": "工业回收",
+        "desc": "为工厂、船厂、建筑工地和制造设施量身定制的重型回收服务。",
+        "process": "安排现场评估 → 获得基于数量的报价 → 我们部署合适的设备 → 高效装载和清除 → 废物处理文件"
+      },
+      {
+        "title": "回收处理",
+        "desc": "我们的设施通过破碎、分拣和精炼来生产高质量的再生材料。",
+        "process": "废料到达设施 → 按类型分类 → 通过回收线处理 → 质量检查 → 供应给钢厂和铸造厂"
+      },
+      {
+        "title": "黑色金属",
+        "desc": "我们专门加工和交易黑色金属。",
+        "process": "材料到达时评估 → 按国际标准分级 → 加工和准备 → 运往钢厂和铸造厂"
+      },
+      {
+        "title": "有色金属",
+        "desc": "我们处理所有主要有色金属。",
+        "process": "金属识别和分类 → 去除杂质 → 按规格加工 → 出售给精炼厂和制造商"
+      }
+    ],
+    "process": {
+      "title": "我们的流程",
+      "steps": [
+        {
+          "title": "联系我们",
+          "desc": "通过电话、电子邮件、WhatsApp或在线表格联系我们"
+        },
+        {
+          "title": "获取报价",
+          "desc": "发送废料照片 — 我们会立即报价"
+        },
+        {
+          "title": "安排回收",
+          "desc": "选择方便的当日回收时间段"
+        },
+        {
+          "title": "称重处理",
+          "desc": "您的废料在现场称重、分级和处理"
+        },
+        {
+          "title": "即时收款",
+          "desc": "通过PayNow、银行转账或现金即时收到付款"
+        }
+      ]
+    },
+    "cta": {
+      "title": "准备好开始了吗？",
+      "button": "请求报价"
+    }
+  },
+  "contact": {
+    "title": "联系我们 | 红点金属",
+    "description": "联系红点金属。致电、发送WhatsApp、电子邮件或访问我们的设施。",
+    "hero": {
+      "title": "联系我们",
+      "subtitle": "我们随时为您服务。以任何方便的方式联系我们。"
+    },
+    "quickActions": {
+      "title": "快速操作",
+      "whatsapp": "WhatsApp 联系",
+      "call": "立即致电",
+      "email": "发送邮件",
+      "map": "查看地图"
+    },
+    "instructions": {
+      "title": "操作方式 — 3个简单步骤",
+      "subtitle": "当天收集您的废料并立即获得付款",
+      "steps": [
+        {
+          "number": 1,
+          "title": "发送照片和详情",
+          "desc": "拍摄您的废金属照片，通过WhatsApp或电子邮件发送给我们。告知我们大概重量和您的位置。"
+        },
+        {
+          "number": 2,
+          "title": "获取即时报价并安排",
+          "desc": "我们会在几分钟内回复我们的最优价格。同意价格并选择当日回收时间。"
+        },
+        {
+          "number": 3,
+          "title": "我们收集、称重并付款",
+          "desc": "我们的团队到达您的位置，装载废料，在您面前称重，您立即通过PayNow或现金收到付款。"
+        }
+      ]
+    },
+    "form": {
+      "name": "姓名",
+      "company": "公司",
+      "email": "邮箱",
+      "phone": "电话",
+      "metalType": "金属类型",
+      "message": "留言",
+      "submit": "发送留言",
+      "sending": "发送中...",
+      "success": "留言发送成功！我们将尽快回复您。",
+      "error": "出了点问题。请重试。",
+      "placeholders": {
+        "name": "您的姓名",
+        "company": "公司名称",
+        "email": "email@example.com",
+        "phone": "+65 9123 4567",
+        "message": "告诉我们您的废料情况或任何问题..."
+      }
+    },
+    "details": {
+      "phone": "+65 8867 3343",
+      "whatsapp": "https://wa.me/6588673343",
+      "email": "sgreddotmetal@gmail.com",
+      "address": "Blk 236, #05-141,\n武吉巴督东大道5,\n新加坡 650236",
+      "hours": "上午7:00 – 晚上11:00（每天）"
+    },
+    "metalOptions": [
+      {
+        "value": "ferrous",
+        "label": "黑色金属（钢铁）"
+      },
+      {
+        "value": "non-ferrous",
+        "label": "有色金属（铜、铝）"
+      },
+      {
+        "value": "mixed",
+        "label": "混合废料"
+      },
+      {
+        "value": "industrial",
+        "label": "工业废料"
+      },
+      {
+        "value": "other",
+        "label": "其他"
+      }
+    ]
+  },
+  "quote": {
+    "title": "请求报价 | 红点金属",
+    "description": "为您的废金属获得有竞争力的报价。",
+    "hero": {
+      "title": "请求报价",
+      "subtitle": "发送废料照片或填写详细信息。我们会在几分钟内回复。"
+    },
+    "quickQuote": {
+      "title": "更快的方式？通过WhatsApp联系我们！",
+      "desc": "在WhatsApp上发送您的废金属照片，获取即时报价。",
+      "button": "在 WhatsApp 上聊天"
+    },
+    "form": {
+      "companyName": "公司名称",
+      "contactPerson": "联系人",
+      "email": "邮箱",
+      "phone": "电话",
+      "metalType": "金属类型",
+      "estimatedWeight": "估计重量（公斤）",
+      "pickupAddress": "回收地址",
+      "preferredDate": "首选回收日期",
+      "notes": "附加说明",
+      "submit": "提交报价请求",
+      "sending": "提交中...",
+      "success": "报价请求已提交！我们将在2小时内联系您。",
+      "error": "出了点问题。请重试。"
+    },
+    "metalOptions": [
+      {
+        "value": "steel",
+        "label": "钢"
+      },
+      {
+        "value": "iron",
+        "label": "铁"
+      },
+      {
+        "value": "copper",
+        "label": "铜"
+      },
+      {
+        "value": "aluminium",
+        "label": "铝"
+      },
+      {
+        "value": "brass",
+        "label": "黄铜"
+      },
+      {
+        "value": "stainless",
+        "label": "不锈钢"
+      },
+      {
+        "value": "lead",
+        "label": "铅"
+      },
+      {
+        "value": "mixed",
+        "label": "混合金属"
+      },
+      {
+        "value": "other",
+        "label": "其他"
+      }
+    ]
+  },
+  "prices": {
+    "title": "废金属价格 | 红点金属",
+    "description": "查看新加坡当前废金属价格。",
+    "hero": {
+      "title": "废金属价格",
+      "subtitle": "所有黑色金属和有色金属的当前市场价格"
+    },
+    "table": {
+      "headerMetal": "金属类型",
+      "headerPrice": "价格（新元/公斤）",
+      "headerCondition": "状况",
+      "headerUpdated": "最后更新"
+    },
+    "note": "价格为参考价，定期更新。请联系或通过WhatsApp联系我们获取固定报价。",
+    "ctaWhatsApp": "在 WhatsApp 获取固定价格",
+    "ctaCall": "致电获取最优惠价格"
+  },
+  "testimonials": {
+    "title": "客户评价 | 红点金属",
+    "description": "听听数百家满意企业的心声。",
+    "hero": {
+      "title": "客户评价",
+      "subtitle": "听听每天信任我们的企业怎么说"
+    }
+  },
+  "serviceArea": {
+    "title": "服务区域 | 红点金属",
+    "description": "红点金属覆盖整个新加坡。",
+    "hero": {
+      "title": "我们的服务区域",
+      "subtitle": "全新加坡当日废金属收集"
+    },
+    "coverage": "我们为整个新加坡岛提供废金属收集服务。",
+    "areas": [
+      {
+        "name": "中部",
+        "districts": "政府大厦、乌节路、牛车水、克拉码头、滨海湾、梧槽"
+      },
+      {
+        "name": "东部",
+        "districts": "樟宜、淡滨尼、勿洛、巴西立、四美、景万岸、阿裕尼"
+      },
+      {
+        "name": "西部",
+        "districts": "裕廊、大士、先驱、文礼、金文泰、武吉巴督、蔡厝港"
+      },
+      {
+        "name": "北部",
+        "districts": "兀兰、三巴旺、义顺、万礼、海军部、坎贝拉"
+      },
+      {
+        "name": "东北部",
+        "districts": "榜鹅、盛港、后港、实龙岗、宏茂桥、万国"
+      },
+      {
+        "name": "南部",
+        "districts": "红山、港湾、圣淘沙、直落布兰雅、花柏山"
+      }
+    ],
+    "industrialEstates": "我们专门服务于所有主要工业区：裕廊工业区、大士、双溪加株、Senoko、德福、加基武吉、乌美、麦波申、淡滨尼等。",
+    "cta": "立即联系我们，在新加坡任何地方享受当日回收服务。"
+  },
+  "admin": {
+    "title": "管理面板 | 红点金属",
+    "description": "管理您的废金属业务。",
+    "login": {
+      "title": "管理员登录",
+      "email": "邮箱",
+      "password": "密码",
+      "submit": "登录",
+      "error": "凭据无效。请重试。"
+    },
+    "dashboard": {
+      "title": "仪表板",
+      "inquiries": "最近的咨询",
+      "prices": "管理价格",
+      "testimonials": "管理评价",
+      "serviceAreas": "服务区域",
+      "noInquiries": "暂无咨询。"
+    },
+    "prices": {
+      "title": "管理价格",
+      "add": "添加价格",
+      "edit": "编辑",
+      "delete": "删除",
+      "save": "保存",
+      "cancel": "取消",
+      "metal": "金属类型",
+      "price": "价格（新元/公斤）",
+      "condition": "状况",
+      "actions": "操作"
+    },
+    "testimonials": {
+      "title": "管理评价",
+      "add": "添加评价",
+      "edit": "编辑",
+      "delete": "删除",
+      "save": "保存",
+      "cancel": "取消",
+      "name": "姓名",
+      "company": "公司",
+      "text": "评价内容",
+      "rating": "评分",
+      "actions": "操作"
+    }
+  },
+  "common": {
+    "nav": {
+      "home": "首页",
+      "about": "关于我们",
+      "services": "服务",
+      "testimonials": "客户评价",
+      "serviceArea": "服务区域",
+      "prices": "价格",
+      "contact": "联系我们",
+      "quote": "获取报价",
+      "whatWeCollect": "回收材料",
+      "whoWeServe": "服务对象",
+      "whyUs": "选择我们"
+    },
+    "footer": {
+      "description": "新加坡值得信赖的B2B废金属回收与交易合作伙伴。",
+      "quickLinks": "快速链接",
+      "services": "服务",
+      "contact": "联系方式",
+      "copyright": "© 2024 红点金属。保留所有权利。",
+      "phone": "+65 8867 3343",
+      "whatsapp": "WhatsApp",
+      "email": "sgreddotmetal@gmail.com",
+      "address": "Blk 236, #05-141, 武吉巴督东大道5, 新加坡 650236"
+    },
+    "language": {
+      "en": "English",
+      "ms": "Bahasa Melayu",
+      "zh": "中文",
+      "ta": "தமிழ்",
+      "bn": "বাংলা"
+    }
+  }
+}

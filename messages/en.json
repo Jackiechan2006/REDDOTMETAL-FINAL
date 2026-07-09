@@ -1,0 +1,392 @@
+{
+  "home": {
+    "title": "Red Dot Metal | Singapore's Trusted Scrap Metal Recycler & Trader",
+    "description": "Red Dot Metal is a leading B2B scrap metal recycling and trading company in Singapore. Same-day pickup, transparent pricing, licensed & certified.",
+    "hero": {
+      "title": "Singapore's Reliable Scrap Metal Recycling & Trading",
+      "subtitle": "",
+      "ctaPickup": "Request Pickup",
+      "ctaServices": "Our Services",
+      "ctaWhatsApp": "WhatsApp Us",
+      "ctaCall": "Call Now"
+    },
+    "stats": {
+      "years": "Years Experience",
+      "tons": "Tons Collected",
+      "clients": "Clients Served",
+      "pickups": "Same-Day Pickup"
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "Comprehensive scrap metal solutions for businesses across Singapore",
+      "items": [
+        { "title": "Scrap Collection", "desc": "Regular and on-demand scrap metal collection services for businesses of all sizes." },
+        { "title": "Metal Trading", "desc": "Buy and sell ferrous and non-ferrous metals at competitive market prices." },
+        { "title": "Industrial Pickup", "desc": "Heavy-duty pickup services for factories, shipyards, and construction sites." },
+        { "title": "Recycling", "desc": "Environmentally responsible recycling that meets all regulatory standards." },
+        { "title": "On-Site Pickup", "desc": "We come to your location — no need to transport your scrap to us." }
+      ]
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "From request to payment in four simple steps",
+      "steps": [
+        { "title": "Submit Request", "desc": "Fill out our quick online form, WhatsApp us, or give us a call." },
+        { "title": "Schedule Pickup", "desc": "We arrange a convenient same-day or next-day pickup at your location." },
+        { "title": "Weigh & Grade", "desc": "Your scrap is weighed and graded at your site or our facility." },
+        { "title": "Get Paid Instantly", "desc": "Receive instant payment via bank transfer, PayNow, or cash on the spot." }
+      ]
+    },
+    "whatWeCollect": {
+      "title": "What We Collect",
+      "subtitle": "We accept all types of ferrous and non-ferrous metals",
+      "items": [
+        { "name": "Steel", "desc": "Structural steel, beams, pipes, sheets, and scrap steel" },
+        { "name": "Iron", "desc": "Cast iron, wrought iron, heavy melting iron" },
+        { "name": "Copper", "desc": "Bare bright copper, copper wire, tubes, pipes, mixed copper" },
+        { "name": "Aluminium", "desc": "Extrusions, sheets, cans, wheel rims, commercial aluminium" },
+        { "name": "Brass", "desc": "Brass scrap, valves, fittings, rods, turnings" },
+        { "name": "Stainless Steel", "desc": "304, 316 grades, sheets, pipes, turnings" },
+        { "name": "Lead", "desc": "Lead batteries, lead sheets, lead pipes" },
+        { "name": "Zinc", "desc": "Zinc scrap, die cast zinc, galvanizing" }
+      ]
+    },
+    "whoWeServe": {
+      "title": "Who We Serve",
+      "subtitle": "Trusted by businesses across every sector",
+      "items": [
+        { "sector": "Construction & Demolition", "desc": "Rebar, structural steel, copper piping from job sites" },
+        { "sector": "Manufacturing & Fabrication", "desc": "Offcuts, production scrap, obsolete machinery" },
+        { "sector": "Shipyards & Marine", "desc": "Steel plates, cables, non-ferrous marine scrap" },
+        { "sector": "Automotive & Engineering", "desc": "End-of-life vehicles, engine blocks, aluminium parts" },
+        { "sector": "Retail & Hospitality", "desc": "Kitchen equipment, HVAC units, shelving, fixtures" },
+        { "sector": "Government & Institutions", "desc": "Infrastructure scrap, school and hospital refurbishments" }
+      ]
+    },
+    "whyUs": {
+      "title": "Why Choose Red Dot Metal",
+      "subtitle": "We make scrap metal recycling easy, transparent, and profitable",
+      "features": [
+        { "title": "Same-Day Service", "desc": "We respond within hours and pick up on the same day." },
+        { "title": "Free Pickup", "desc": "No hidden fees. We collect your scrap metal at no cost." },
+        { "title": "Instant Payment", "desc": "Get paid instantly via PayNow, bank transfer, or cash." },
+        { "title": "Transparent Pricing", "desc": "Real-time market rates with clear weight and price breakdown." },
+        { "title": "Licensed & Certified", "desc": "Fully licensed by NEA. Compliant with all regulations." },
+        { "title": "We Cover All Areas", "desc": "Serving all of Singapore — East, West, North, South, Central." }
+      ]
+    },
+    "testimonials": {
+      "title": "What Our Clients Say",
+      "subtitle": "Trusted by businesses across Singapore",
+      "items": [
+        { "name": "caveman44", "role": "Buyer", "yearsAgo": "4 years ago", "text": "Unique listings. Very easy to deal with! Would recommend.", "rating": 5 },
+        { "name": "triadii", "role": "Seller", "yearsAgo": "4 years ago", "text": "Very decisive buyer! Thank you 🙏🤗", "rating": 5 },
+        { "name": "dandorje", "role": "Buyer", "yearsAgo": "5 years ago", "text": "Very nice, friendly and helpful gentleman that always goes the extra mile with very fast response and fuss-free transaction. Definitely would deal again.", "rating": 5 },
+        { "name": "woshicaishenye", "role": "Buyer", "yearsAgo": "5 years ago", "text": "Best transaction ever. Seller stuck to his principles despite higher offers. Highly recommended. Thank you.", "rating": 5 },
+        { "name": "maggielim62", "role": "Buyer", "yearsAgo": "6 years ago", "text": "Seller was very responsive and kind. Item was in good working condition. Thank you.", "rating": 5 },
+        { "name": "sforla", "role": "Seller", "yearsAgo": "8 years ago", "text": "Extremely patient, sincere and polite buyer. Smooth and fuss-free transaction. Hope to deal again. Thank you.", "rating": 5 }
+      ]
+    },
+    "serviceArea": {
+      "title": "Our Service Area",
+      "subtitle": "We cover the entire island of Singapore",
+      "coverage": "We provide scrap metal collection services across the entire island of Singapore. From Tuas in the west to Changi in the east, Woodlands in the north to Sentosa in the south — wherever you are, we'll come to you.",
+      "cta": "Contact us for same-day collection anywhere in Singapore."
+    },
+    "prices": {
+      "title": "Current Scrap Metal Prices",
+      "subtitle": "Competitive market rates updated regularly. Prices are per KG.",
+      "table": {
+        "headerMetal": "Metal Type",
+        "headerPrice": "Price (S$/kg)",
+        "headerCondition": "Condition"
+      },
+      "note": "Prices are indicative and subject to change based on market conditions. Call or WhatsApp us for a firm quote.",
+      "cta": "Get a Firm Quote"
+    },
+    "cta": {
+      "title": "Ready to turn your scrap into cash?",
+      "button": "Schedule a Pickup Today",
+      "whatsapp": "Chat on WhatsApp"
+    },
+    "contact": {
+      "title": "Get In Touch",
+      "subtitle": "Have questions? Reach out to our team."
+    }
+  },
+  "about": {
+    "title": "About Us | Red Dot Metal",
+    "description": "Learn about Red Dot Metal — Singapore's trusted B2B scrap metal recycling and trading company. Our mission, values, and experienced team.",
+    "hero": {
+      "title": "About Red Dot Metal",
+      "subtitle": "Singapore's trusted partner in scrap metal recycling and trading"
+    },
+    "overview": "Red Dot Metal is a Singapore-based B2B scrap metal recycling and trading company dedicated to providing reliable, transparent, and environmentally responsible metal waste management solutions. With decades of combined industry experience, we serve businesses ranging from small workshops to multinational corporations.",
+    "mission": "To be Singapore's most trusted scrap metal partner by delivering exceptional service, fair pricing, and sustainable recycling practices.",
+    "vision": "To lead the transition toward a circular economy where every piece of metal is recovered, recycled, and reused — reducing waste and conserving resources for future generations.",
+    "values": [
+      { "title": "Integrity", "desc": "Honest weighing, transparent pricing, and ethical business practices in every transaction." },
+      { "title": "Reliability", "desc": "Same-day pickups, on-time payments, and consistent service quality you can count on." },
+      { "title": "Sustainability", "desc": "Commitment to environmentally responsible recycling that exceeds regulatory requirements." }
+    ],
+    "team": "Our team brings together expertise in metal trading, logistics, and environmental compliance. From our operations crew to our management team, every member is committed to delivering the highest standard of service."
+  },
+  "services": {
+    "title": "Our Services | Red Dot Metal",
+    "description": "Comprehensive B2B scrap metal recycling and trading services in Singapore. Collection, trading, industrial pickup, and recycling.",
+    "hero": {
+      "title": "Our Services",
+      "subtitle": "End-to-end scrap metal solutions for Singapore businesses"
+    },
+    "items": [
+      {
+        "title": "Scrap Collection",
+        "desc": "We provide regular scheduled collections and on-demand pickup services for businesses across Singapore. Our fleet of trucks and trained crew handle everything from office scrap to industrial waste, ensuring efficient and hassle-free removal.",
+        "process": "Call or book online → We confirm a time slot → Our team arrives and loads the scrap → You get a weighbridge ticket and payment"
+      },
+      {
+        "title": "Metal Trading",
+        "desc": "We buy and sell a wide range of ferrous and non-ferrous metals at competitive market prices. Whether you're looking to sell scrap or source raw material, our trading desk provides real-time quotes and transparent transactions.",
+        "process": "Contact us with your metal type and volume → We provide a live quote → Agree on price → Arrange delivery or collection → Payment within 24 hours"
+      },
+      {
+        "title": "Industrial Pickup",
+        "desc": "Heavy-duty pickup services tailored for factories, shipyards, construction sites, and manufacturing facilities. We handle large volumes and heavy materials with specialized equipment and experienced crews.",
+        "process": "Schedule a site assessment → Get a volume-based quote → We deploy the right equipment → Efficient loading and removal → Waste disposal documentation"
+      },
+      {
+        "title": "Recycling",
+        "desc": "Our facility processes scrap metal through shredding, sorting, and refining to produce high-quality recycled material. We are NEA-compliant and maintain full chain-of-custody documentation for all processed materials.",
+        "process": "Scrap arrives at our facility → Sorted by type → Processed through our recycling line → Quality checked → Supplied to mills and foundries"
+      },
+      {
+        "title": "On-Site Pickup",
+        "desc": "We come directly to your premises to collect scrap metal — no need to transport anything yourself. Suitable for offices, factories, warehouses, and construction sites of any size.",
+        "process": "Book via WhatsApp or form → We arrive at your site → Load and weigh on the spot → Instant payment → Done"
+      }
+    ],
+    "process": {
+      "title": "Our Process",
+      "steps": [
+        { "title": "Contact Us", "desc": "Reach out via phone, email, WhatsApp, or our online form" },
+        { "title": "Get a Quote", "desc": "Send a photo of your scrap — we'll quote you instantly" },
+        { "title": "Schedule Pickup", "desc": "Choose a convenient time slot for same-day collection" },
+        { "title": "Weigh & Process", "desc": "Your scrap is weighed, graded, and processed on the spot" },
+        { "title": "Get Paid Instantly", "desc": "Receive instant payment via PayNow, bank transfer, or cash" }
+      ]
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "button": "Request a Quote"
+    }
+  },
+  "contact": {
+    "title": "Contact Us | Red Dot Metal",
+    "description": "Get in touch with Red Dot Metal. Call, WhatsApp, email, or visit our facility. We're ready to help with your scrap metal needs.",
+    "hero": {
+      "title": "Contact Us",
+      "subtitle": "We're here to help. Reach out any way that works for you."
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "whatsapp": "WhatsApp Us",
+      "call": "Call Now",
+      "email": "Send Email",
+      "map": "View on Map"
+    },
+    "instructions": {
+      "title": "How It Works — 3 Simple Steps",
+      "subtitle": "Get your scrap collected and get paid the same day",
+      "steps": [
+        { "number": 1, "title": "Send Photo & Details", "desc": "Take a photo of your scrap metal and WhatsApp or email it to us. Tell us the approximate weight and your location." },
+        { "number": 2, "title": "Get Instant Quote & Schedule", "desc": "We'll reply within minutes with our best price. Agree on the price and pick a same-day pickup time that works for you." },
+        { "number": 3, "title": "We Collect, Weigh & Pay", "desc": "Our team arrives at your location, loads the scrap, weighs it in front of you, and you get paid instantly via PayNow or cash." }
+      ]
+    },
+    "form": {
+      "name": "Name",
+      "company": "Company",
+      "email": "Email",
+      "phone": "Phone",
+      "metalType": "Metal Type",
+      "message": "Message",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully! We'll get back to you shortly.",
+      "error": "Something went wrong. Please try again.",
+      "placeholders": {
+        "name": "Your name",
+        "company": "Company name",
+        "email": "email@example.com",
+        "phone": "+65 9123 4567",
+        "message": "Tell us about your scrap or ask us anything..."
+      }
+    },
+    "details": {
+      "phone": "+65 8867 3343",
+      "whatsapp": "https://wa.me/6588673343",
+      "email": "sgreddotmetal@gmail.com",
+      "address": "Blk 236, #05-141,\nBukit Batok East Ave 5,\nSingapore 650236",
+      "hours": "7:00 AM – 11:00 PM (Daily)"
+    },
+    "metalOptions": [
+      { "value": "ferrous", "label": "Ferrous Metals (Steel, Iron)" },
+      { "value": "non-ferrous", "label": "Non-Ferrous Metals (Copper, Aluminium)" },
+      { "value": "mixed", "label": "Mixed Scrap" },
+      { "value": "industrial", "label": "Industrial Waste" },
+      { "value": "other", "label": "Other" }
+    ]
+  },
+  "quote": {
+    "title": "Request a Quote | Red Dot Metal",
+    "description": "Get a competitive quote for your scrap metal. Send us a photo or fill out the form and our team will respond within minutes.",
+    "hero": {
+      "title": "Request a Quote",
+      "subtitle": "Send us a photo of your scrap or fill in the details. We'll respond within minutes with our best price."
+    },
+    "quickQuote": {
+      "title": "Faster Way? WhatsApp Us!",
+      "desc": "Send a photo of your scrap metal on WhatsApp and get an instant quote.",
+      "button": "Chat on WhatsApp"
+    },
+    "form": {
+      "companyName": "Company Name",
+      "contactPerson": "Contact Person",
+      "email": "Email",
+      "phone": "Phone",
+      "metalType": "Metal Type(s)",
+      "estimatedWeight": "Estimated Weight (kg)",
+      "pickupAddress": "Pickup Address",
+      "preferredDate": "Preferred Pickup Date",
+      "notes": "Additional Notes",
+      "submit": "Submit Quote Request",
+      "sending": "Submitting...",
+      "success": "Quote request submitted! We'll contact you within 2 hours.",
+      "error": "Something went wrong. Please try again."
+    },
+    "metalOptions": [
+      { "value": "steel", "label": "Steel" },
+      { "value": "iron", "label": "Iron" },
+      { "value": "copper", "label": "Copper" },
+      { "value": "aluminium", "label": "Aluminium" },
+      { "value": "brass", "label": "Brass" },
+      { "value": "stainless", "label": "Stainless Steel" },
+      { "value": "lead", "label": "Lead" },
+      { "value": "mixed", "label": "Mixed Metals" },
+      { "value": "other", "label": "Other" }
+    ]
+  },
+  "prices": {
+    "title": "Scrap Metal Prices | Red Dot Metal",
+    "description": "Check current scrap metal prices in Singapore. Updated daily. Copper, aluminium, steel, brass, and more.",
+    "hero": {
+      "title": "Scrap Metal Prices",
+      "subtitle": "Current market rates for all ferrous and non-ferrous metals"
+    },
+    "table": {
+      "headerMetal": "Metal Type",
+      "headerPrice": "Price (S$/kg)",
+      "headerCondition": "Condition",
+      "headerUpdated": "Last Updated"
+    },
+    "note": "Prices are indicative and updated regularly. Call or WhatsApp us for a firm same-day quote based on your scrap volume and grade.",
+    "ctaWhatsApp": "Get Firm Price on WhatsApp",
+    "ctaCall": "Call for Best Price"
+  },
+  "testimonials": {
+    "title": "Testimonials | Red Dot Metal",
+    "description": "Hear from satisfied clients who trust Red Dot Metal for their scrap metal recycling needs.",
+    "hero": {
+      "title": "What Our Clients Say",
+      "subtitle": "Hear from the businesses that trust us every day"
+    }
+  },
+  "serviceArea": {
+    "title": "Service Area | Red Dot Metal",
+    "description": "Red Dot Metal covers all of Singapore. Same-day scrap metal collection everywhere.",
+    "hero": {
+      "title": "Our Service Area",
+      "subtitle": "Same-day scrap metal collection across all of Singapore"
+    },
+    "coverage": "We provide scrap metal collection services across the entire island of Singapore. From Tuas in the west to Changi in the east, Woodlands in the north to Sentosa in the south — wherever you are, we'll come to you.",
+    "industrialEstates": "We specialise in servicing all major industrial estates: Jurong Industrial Estate, Tuas, Sungei Kadut, Senoko, Defu, Kaki Bukit, Ubi, MacPherson, Tampines, and more.",
+    "cta": "Contact us now for same-day collection anywhere in Singapore."
+  },
+  "admin": {
+    "title": "Admin Panel | Red Dot Metal",
+    "description": "Manage your scrap metal business — prices, testimonials, service areas, and inquiries.",
+    "login": {
+      "title": "Admin Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "error": "Invalid credentials. Please try again."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "inquiries": "Recent Inquiries",
+      "prices": "Manage Prices",
+      "testimonials": "Manage Testimonials",
+      "serviceAreas": "Service Areas",
+      "noInquiries": "No inquiries yet."
+    },
+    "prices": {
+      "title": "Manage Prices",
+      "add": "Add Price",
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save Changes",
+      "cancel": "Cancel",
+      "metal": "Metal Type",
+      "price": "Price (S$/kg)",
+      "condition": "Condition",
+      "actions": "Actions"
+    },
+    "testimonials": {
+      "title": "Manage Testimonials",
+      "add": "Add Testimonial",
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save Changes",
+      "cancel": "Cancel",
+      "name": "Name",
+      "company": "Company",
+      "text": "Testimonial",
+      "rating": "Rating",
+      "actions": "Actions"
+    }
+  },
+  "common": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "services": "Services",
+      "testimonials": "Testimonials",
+      "serviceArea": "Service Area",
+      "prices": "Prices",
+      "contact": "Contact",
+      "quote": "Get a Quote",
+      "whatWeCollect": "What We Collect",
+      "whoWeServe": "Who We Serve",
+      "whyUs": "Why Us"
+    },
+    "footer": {
+      "description": "Singapore's trusted B2B partner for scrap metal recycling and trading. Same-day collection, instant payment, free pickup.",
+      "quickLinks": "Quick Links",
+      "services": "Services",
+      "contact": "Contact",
+      "copyright": "© 2024 Red Dot Metal. All rights reserved.",
+      "phone": "+65 8867 3343",
+      "whatsapp": "WhatsApp",
+      "email": "sgreddotmetal@gmail.com",
+      "address": "Blk 236, #05-141, Bukit Batok East Ave 5, Singapore 650236"
+    },
+    "language": {
+      "en": "English",
+      "ms": "Bahasa Melayu",
+      "zh": "中文",
+      "ta": "தமிழ்",
+      "bn": "বাংলা"
+    }
+  }
+}
