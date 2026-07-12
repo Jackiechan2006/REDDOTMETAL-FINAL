@@ -3,6 +3,10 @@
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { CheckCircle, Clock, ChevronDown, Eye, FileText, FileSpreadsheet, Mail, Printer } from "lucide-react"
+import jsPDF from "jspdf"
+import autoTable from "jspdf-autotable"
+import * as XLSX from "xlsx"
 import type {
   QuoteRequestWithManagement,
   ContactRequest,
@@ -30,6 +34,7 @@ export default function AdminDashboard() {
   const [mgmtRecord, setMgmtRecord] = useState<Partial<AdminQuoteManagement>>({})
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState("")
+  const [isExportOpen, setIsExportOpen] = useState(false)
 
   const checkAuth = useCallback(async () => {
     const res = await fetch("/api/admin/quotes", { method: "GET" })
@@ -139,6 +144,114 @@ export default function AdminDashboard() {
     Cancelled: "bg-gray-500/20 text-gray-400",
   }
 
+  const exportRows = quotes.map((quote) => {
+    const management = quote.admin_quote_management?.[0]
+
+    return {
+      "Company Name": quote.company_name,
+      "Contact Person": quote.contact_person,
+      Email: quote.email,
+      "Phone Number": quote.phone_number,
+      "Metal Types": quote.metal_type.join(", "),
+      "Estimated Weight": quote.estimated_weight,
+      "Pickup Address": quote.pickup_address,
+      "Preferred Pickup Date": quote.preferred_pickup_date,
+      Status: quote.status,
+      "Assigned Staff": management?.assigned_staff ?? "",
+      "Quotation Amount": management?.quotation_amount ?? "",
+      "Payment Status": management?.payment_status ?? "",
+      "Customer Priority": management?.customer_priority ?? "",
+      "Created Date": new Date(quote.created_at).toLocaleString(),
+    }
+  })
+
+  const getExportFilename = (extension: string) =>
+    `red-dot-metals-quotes-${new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-")}.${extension}`
+
+  const handleExportExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(exportRows)
+    const workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Quotes")
+    XLSX.writeFile(workbook, getExportFilename("xlsx"))
+    setIsExportOpen(false)
+  }
+
+  const handleExportCSV = () => {
+    const worksheet = XLSX.utils.json_to_sheet(exportRows)
+    const csv = XLSX.utils.sheet_to_csv(worksheet)
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = getExportFilename("csv")
+    link.click()
+    URL.revokeObjectURL(url)
+    setIsExportOpen(false)
+  }
+
+  const handleExportPDF = () => {
+    const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" })
+    doc.setFontSize(16)
+    doc.text("Red Dot Metals Quote Export", 14, 16)
+
+    autoTable(doc, {
+      startY: 24,
+      head: [[
+        "Company Name",
+        "Contact Person",
+        "Email",
+        "Phone Number",
+        "Metal Types",
+        "Estimated Weight",
+        "Pickup Address",
+        "Preferred Pickup Date",
+        "Status",
+        "Assigned Staff",
+        "Quotation Amount",
+        "Payment Status",
+        "Customer Priority",
+        "Created Date",
+      ]],
+      body: exportRows.map((row) => [
+        row["Company Name"],
+        row["Contact Person"],
+        row.Email,
+        row["Phone Number"],
+        row["Metal Types"],
+        row["Estimated Weight"],
+        row["Pickup Address"],
+        row["Preferred Pickup Date"],
+        row.Status,
+        row["Assigned Staff"],
+        row["Quotation Amount"],
+        row["Payment Status"],
+        row["Customer Priority"],
+        row["Created Date"],
+      ]),
+      styles: {
+        fontSize: 7,
+        cellPadding: 2,
+        overflow: "linebreak",
+        textColor: [226, 232, 240],
+        fillColor: [30, 41, 59],
+        lineColor: [51, 65, 85],
+        lineWidth: 0.1,
+      },
+      headStyles: {
+        fillColor: [220, 38, 38],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+      },
+      alternateRowStyles: {
+        fillColor: [15, 23, 42],
+      },
+      theme: "grid",
+    })
+
+    doc.save(getExportFilename("pdf"))
+    setIsExportOpen(false)
+  }
+
   if (!authChecked) return null
 
   return (
@@ -150,29 +263,111 @@ export default function AdminDashboard() {
             <Image src="/logo.jpeg" alt="Red Dot Metals" width={100} height={36} className="h-9 w-auto object-contain" />
             <span className="text-sm font-medium text-gray-400">Admin Dashboard</span>
           </div>
-          <button
-            onClick={handleLogout}
-            className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition-colors hover:border-red-500/50 hover:text-red-400"
-          >
-            Logout
-          </button>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <button
+                onClick={() => setIsExportOpen((current) => !current)}
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-[#0f172a] px-4 py-2 text-sm text-gray-300 transition-all duration-200 hover:border-blue-500/40 hover:text-white hover:shadow-lg hover:shadow-black/20"
+              >
+                <Printer className="h-4 w-4" />
+                Export
+                <ChevronDown className="h-4 w-4" />
+              </button>
+              {isExportOpen && (
+                <div className="absolute right-0 top-full z-20 mt-2 w-52 overflow-hidden rounded-xl border border-white/10 bg-[#0f172a] shadow-2xl shadow-black/40">
+                  <button
+                    onClick={handleExportPDF}
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    <FileText className="h-4 w-4 text-red-400" />
+                    Export as PDF
+                  </button>
+                  <button
+                    onClick={handleExportExcel}
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    <FileSpreadsheet className="h-4 w-4 text-green-400" />
+                    Export as Excel (.xlsx)
+                  </button>
+                  <button
+                    onClick={handleExportCSV}
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    <Mail className="h-4 w-4 text-yellow-400" />
+                    Export as CSV
+                  </button>
+                </div>
+              )}
+            </div>
+            <button
+              onClick={handleLogout}
+              className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition-colors hover:border-red-500/50 hover:text-red-400"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         {/* Stats */}
-        <div className="mb-8 grid gap-4 sm:grid-cols-4">
+        <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {[
-            { label: "Total Quotes", value: quotes.length },
-            { label: "Pending", value: quotes.filter((q) => q.status === "Pending").length },
-            { label: "Completed", value: quotes.filter((q) => q.status === "Completed").length },
-            { label: "Contacts", value: contacts.length },
-          ].map((stat) => (
-            <div key={stat.label} className="rounded-xl border border-white/10 bg-[#1e293b] p-4">
-              <p className="text-sm text-gray-400">{stat.label}</p>
-              <p className="mt-1 text-3xl font-bold text-white">{stat.value}</p>
-            </div>
-          ))}
+            {
+              label: "Total Quotes",
+              value: quotes.length,
+              icon: FileText,
+              tone: "from-blue-500/20 to-blue-600/10 border-blue-500/20 text-blue-300",
+              iconTone: "bg-blue-500/15 text-blue-300",
+            },
+            {
+              label: "Pending Quotes",
+              value: quotes.filter((q) => q.status === "Pending").length,
+              icon: Clock,
+              tone: "from-amber-500/20 to-yellow-600/10 border-amber-500/20 text-amber-300",
+              iconTone: "bg-amber-500/15 text-amber-300",
+            },
+            {
+              label: "Reviewing Quotes",
+              value: quotes.filter((q) => q.status === "Reviewing").length,
+              icon: Eye,
+              tone: "from-purple-500/20 to-fuchsia-600/10 border-purple-500/20 text-purple-300",
+              iconTone: "bg-purple-500/15 text-purple-300",
+            },
+            {
+              label: "Completed Quotes",
+              value: quotes.filter((q) => q.status === "Completed").length,
+              icon: CheckCircle,
+              tone: "from-emerald-500/20 to-green-600/10 border-emerald-500/20 text-emerald-300",
+              iconTone: "bg-emerald-500/15 text-emerald-300",
+            },
+            {
+              label: "Contact Requests",
+              value: contacts.length,
+              icon: Mail,
+              tone: "from-red-500/20 to-rose-600/10 border-red-500/20 text-red-300",
+              iconTone: "bg-red-500/15 text-red-300",
+            },
+          ].map((stat) => {
+            const Icon = stat.icon
+
+            return (
+              <div
+                key={stat.label}
+                className={`group rounded-2xl border bg-gradient-to-br p-5 shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-black/20 ${stat.tone} bg-[#1e293b]`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-medium text-gray-300">{stat.label}</p>
+                    <p className="mt-2 text-3xl font-bold text-white">{stat.value}</p>
+                  </div>
+                  <div className={`rounded-xl p-3 ${stat.iconTone}`}>
+                    <Icon className="h-5 w-5" />
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
 
         {/* Tabs */}

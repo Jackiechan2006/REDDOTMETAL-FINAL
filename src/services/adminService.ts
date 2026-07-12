@@ -38,6 +38,16 @@ export async function updateAdminRecord(
     .single()
 
   if (error) throw new Error(`Failed to update admin record: ${error.message}`)
+
+  if (updates.quotation_status) {
+    await admin
+      .from("quote_requests")
+      .update({
+        status: updates.quotation_status,
+      })
+      .eq("id", record.quote_request_id)
+  }
+
   return record as AdminQuoteManagement
 }
 

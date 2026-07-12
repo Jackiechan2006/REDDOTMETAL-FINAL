@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
+import { createAdminRecord } from "@/services/adminService"
 import { submitQuoteForm } from "@/lib/resend"
 import { createQuoteRequest } from "@/services/quoteService"
 
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
     const data = schema.parse(body)
 
     // Save to Supabase
-    await createQuoteRequest({
+    const quote = await createQuoteRequest({
       company_name: data.companyName,
       contact_person: data.contactPerson,
       email: data.email,
@@ -31,6 +32,14 @@ export async function POST(req: NextRequest) {
       pickup_address: data.pickupAddress,
       preferred_pickup_date: data.preferredDate,
       additional_notes: data.notes,
+    })
+
+    await createAdminRecord({
+      quote_request_id: quote.id,
+      quotation_status: "Pending",
+      quotation_currency: "SGD",
+      payment_status: "Unpaid",
+      customer_priority: "Normal",
     })
 
     // Send emails
