@@ -11,7 +11,7 @@ export type PaymentStatus = "Unpaid" | "Partial" | "Paid" | "Refunded"
 
 export type CustomerPriority = "Low" | "Normal" | "High" | "Urgent"
 
-export type ContentKind = "price" | "testimonial" | "service" | "image" | "setting"
+export type ContentKind = "price" | "testimonial" | "service" | "image" | "setting" | "homepage"
 
 export type ContentStatus = "draft" | "active" | "inactive" | "pending" | "approved" | "rejected" | "deleted"
 

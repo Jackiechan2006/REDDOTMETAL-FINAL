@@ -3,12 +3,15 @@
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { CheckCircle, Clock, ChevronDown, Eye, FileText, FileSpreadsheet, Mail, Printer } from "lucide-react"
+import { CheckCircle, Clock, ChevronDown, Eye, FileText, FileSpreadsheet, Mail, Printer, Save, X, CheckCircle2 } from "lucide-react"
 import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
 import * as XLSX from "xlsx"
 import ActivityLogTab from "./ActivityLog"
 import PricesManager from "./PricesManager"
+import TestimonialsManager from "./TestimonialsManager"
+import SettingsManager from "./SettingsManager"
+import HomepageManager from "./HomepageManager"
 import type {
   QuoteRequestWithManagement,
   ContactRequest,
@@ -19,7 +22,7 @@ import type {
 } from "@/types/database"
 import { formatDisplayDate, formatDisplayDateOnly } from "@/lib/siteContent"
 
-type Tab = "quotes" | "contacts" | "prices" | "activity"
+type Tab = "quotes" | "contacts" | "prices" | "testimonials" | "homepage" | "settings" | "activity"
 type FilterStatus = "all" | QuoteStatus
 type SortOrder = "newest" | "oldest" | "pending" | "completed"
 
@@ -37,6 +40,7 @@ export default function AdminDashboard() {
   const [mgmtRecord, setMgmtRecord] = useState<Partial<AdminQuoteManagement>>({})
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState("")
+  const [saveTimestamp, setSaveTimestamp] = useState<string | null>(null)
   const [isExportOpen, setIsExportOpen] = useState(false)
 
   const checkAuth = useCallback(async () => {
@@ -79,7 +83,7 @@ export default function AdminDashboard() {
   const openQuote = async (quote: QuoteRequestWithManagement) => {
     setSelectedQuote(quote)
     setSaveMsg("")
-    // Load existing management record if any
+    setSaveTimestamp(null)
     const res = await fetch(`/api/admin/management?quote_request_id=${quote.id}`)
     const data = await res.json()
     setMgmtRecord(data.record ?? {
@@ -109,10 +113,12 @@ export default function AdminDashboard() {
       if (res.ok) {
         const data = await res.json()
         setMgmtRecord(data.record)
-        setSaveMsg("Saved successfully.")
+        setSaveMsg("Changes saved successfully")
+        setSaveTimestamp(new Date().toLocaleTimeString("en-SG", { hour: "2-digit", minute: "2-digit" }))
         fetchData()
       } else {
         setSaveMsg("Failed to save. Please try again.")
+        setSaveTimestamp(null)
       }
     } finally {
       setSaving(false)
@@ -138,18 +144,17 @@ export default function AdminDashboard() {
     })
 
   const statusColor: Record<string, string> = {
-    Pending: "bg-yellow-500/20 text-yellow-400",
-    Reviewing: "bg-blue-500/20 text-blue-400",
-    Quoted: "bg-amber-500/20 text-amber-400",
-    Accepted: "bg-green-500/20 text-green-400",
-    Rejected: "bg-red-500/20 text-red-400",
-    Completed: "bg-emerald-500/20 text-emerald-400",
-    Cancelled: "bg-gray-500/20 text-gray-400",
+    Pending: "bg-yellow-500/15 text-yellow-400 border border-yellow-500/20",
+    Reviewing: "bg-blue-500/15 text-blue-400 border border-blue-500/20",
+    Quoted: "bg-amber-500/15 text-amber-400 border border-amber-500/20",
+    Accepted: "bg-green-500/15 text-green-400 border border-green-500/20",
+    Rejected: "bg-red-500/15 text-red-400 border border-red-500/20",
+    Completed: "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20",
+    Cancelled: "bg-gray-500/15 text-gray-400 border border-gray-500/20",
   }
 
   const exportRows = filteredQuotes.map((quote) => {
     const management = quote.admin_quote_management?.[0]
-
     return {
       "Company Name": quote.company_name,
       "Contact Person": quote.contact_person,
@@ -200,35 +205,16 @@ export default function AdminDashboard() {
     autoTable(doc, {
       startY: 24,
       head: [[
-        "Company Name",
-        "Contact Person",
-        "Email",
-        "Phone Number",
-        "Metal Types",
-        "Estimated Weight",
-        "Pickup Address",
-        "Preferred Pickup Date",
-        "Status",
-        "Assigned Staff",
-        "Quotation Amount",
-        "Payment Status",
-        "Customer Priority",
-        "Created Date",
+        "Company Name", "Contact Person", "Email", "Phone Number",
+        "Metal Types", "Estimated Weight", "Pickup Address", "Preferred Pickup Date",
+        "Status", "Assigned Staff", "Quotation Amount", "Payment Status",
+        "Customer Priority", "Created Date",
       ]],
       body: exportRows.map((row) => [
-        row["Company Name"],
-        row["Contact Person"],
-        row.Email,
-        row["Phone Number"],
-        row["Metal Types"],
-        row["Estimated Weight"],
-        row["Pickup Address"],
-        row["Preferred Pickup Date"],
-        row.Status,
-        row["Assigned Staff"],
-        row["Quotation Amount"],
-        row["Payment Status"],
-        row["Customer Priority"],
+        row["Company Name"], row["Contact Person"], row.Email, row["Phone Number"],
+        row["Metal Types"], row["Estimated Weight"], row["Pickup Address"],
+        row["Preferred Pickup Date"], row.Status, row["Assigned Staff"],
+        row["Quotation Amount"], row["Payment Status"], row["Customer Priority"],
         row["Created Date"],
       ]),
       styles: {
@@ -258,43 +244,44 @@ export default function AdminDashboard() {
   if (!authChecked) return null
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen bg-[#0c1222]">
       {/* Header */}
-      <div className="border-b border-white/10 bg-[#1e293b]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
-          <div className="flex items-center gap-3">
+      <div className="border-b border-white/[0.06] bg-[#111827]/80 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4">
             <Image src="/logo.jpeg" alt="Red Dot Metals" width={100} height={36} className="h-9 w-auto object-contain" />
-            <span className="text-sm font-medium text-gray-400">Admin Dashboard</span>
+            <div className="hidden h-6 w-px bg-white/10 sm:block" />
+            <span className="hidden text-sm font-medium text-gray-400 sm:block">Admin Dashboard</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="relative">
               <button
                 onClick={() => setIsExportOpen((current) => !current)}
-                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-[#0f172a] px-4 py-2 text-sm text-gray-300 transition-all duration-200 hover:border-blue-500/40 hover:text-white hover:shadow-lg hover:shadow-black/20"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-gray-300 transition-all duration-200 hover:border-blue-500/30 hover:bg-white/[0.06] hover:text-white hover:shadow-lg hover:shadow-black/20"
               >
                 <Printer className="h-4 w-4" />
                 Export
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
               </button>
               {isExportOpen && (
-                <div className="absolute right-0 top-full z-20 mt-2 w-52 overflow-hidden rounded-xl border border-white/10 bg-[#0f172a] shadow-2xl shadow-black/40">
+                <div className="absolute right-0 top-full z-30 mt-2 w-56 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#111827] p-1.5 shadow-2xl shadow-black/40">
                   <button
                     onClick={handleExportPDF}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm text-gray-200 transition-all duration-200 hover:bg-white/[0.06] hover:text-white"
                   >
                     <FileText className="h-4 w-4 text-red-400" />
                     Export as PDF
                   </button>
                   <button
                     onClick={handleExportExcel}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm text-gray-200 transition-all duration-200 hover:bg-white/[0.06] hover:text-white"
                   >
                     <FileSpreadsheet className="h-4 w-4 text-green-400" />
-                    Export as Excel (.xlsx)
+                    Export as Excel
                   </button>
                   <button
                     onClick={handleExportCSV}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm text-gray-200 transition-all duration-200 hover:bg-white/[0.06] hover:text-white"
                   >
                     <Mail className="h-4 w-4 text-yellow-400" />
                     Export as CSV
@@ -304,7 +291,7 @@ export default function AdminDashboard() {
             </div>
             <button
               onClick={handleLogout}
-              className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition-colors hover:border-red-500/50 hover:text-red-400"
+              className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-gray-300 transition-all duration-200 hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-400"
             >
               Logout
             </button>
@@ -312,59 +299,58 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
         {/* Stats */}
-        <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {[
             {
               label: "Total Quotes",
               value: quotes.length,
               icon: FileText,
-              tone: "from-blue-500/20 to-blue-600/10 border-blue-500/20 text-blue-300",
-              iconTone: "bg-blue-500/15 text-blue-300",
+              tone: "from-blue-500/15 to-blue-600/5 border-blue-500/15",
+              iconTone: "bg-blue-500/15 text-blue-400",
             },
             {
               label: "Pending Quotes",
               value: quotes.filter((q) => q.status === "Pending").length,
               icon: Clock,
-              tone: "from-amber-500/20 to-yellow-600/10 border-amber-500/20 text-amber-300",
-              iconTone: "bg-amber-500/15 text-amber-300",
+              tone: "from-amber-500/15 to-yellow-600/5 border-amber-500/15",
+              iconTone: "bg-amber-500/15 text-amber-400",
             },
             {
-              label: "Reviewing Quotes",
+              label: "Reviewing",
               value: quotes.filter((q) => q.status === "Reviewing").length,
               icon: Eye,
-              tone: "from-amber-500/20 to-orange-600/10 border-amber-500/20 text-amber-300",
-              iconTone: "bg-amber-500/15 text-amber-300",
+              tone: "from-orange-500/15 to-orange-600/5 border-orange-500/15",
+              iconTone: "bg-orange-500/15 text-orange-400",
             },
             {
-              label: "Completed Quotes",
+              label: "Completed",
               value: quotes.filter((q) => q.status === "Completed").length,
               icon: CheckCircle,
-              tone: "from-emerald-500/20 to-green-600/10 border-emerald-500/20 text-emerald-300",
-              iconTone: "bg-emerald-500/15 text-emerald-300",
+              tone: "from-emerald-500/15 to-green-600/5 border-emerald-500/15",
+              iconTone: "bg-emerald-500/15 text-emerald-400",
             },
             {
               label: "Contact Requests",
               value: contacts.length,
               icon: Mail,
-              tone: "from-red-500/20 to-rose-600/10 border-red-500/20 text-red-300",
-              iconTone: "bg-red-500/15 text-red-300",
+              tone: "from-red-500/15 to-rose-600/5 border-red-500/15",
+              iconTone: "bg-red-500/15 text-red-400",
             },
           ].map((stat) => {
             const Icon = stat.icon
-
             return (
               <div
                 key={stat.label}
-                className={`group rounded-2xl border bg-gradient-to-br p-5 shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-black/20 ${stat.tone} bg-[#1e293b]`}
+                className={`group rounded-2xl border bg-gradient-to-br p-6 shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 ${stat.tone}`}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-sm font-medium text-gray-300">{stat.label}</p>
-                    <p className="mt-2 text-3xl font-bold text-white">{stat.value}</p>
+                    <p className="text-sm font-medium text-gray-400">{stat.label}</p>
+                    <p className="mt-3 text-3xl font-bold text-white">{stat.value}</p>
                   </div>
-                  <div className={`rounded-xl p-3 ${stat.iconTone}`}>
+                  <div className={`rounded-xl p-3 ${stat.iconTone} transition-transform duration-300 group-hover:scale-110`}>
                     <Icon className="h-5 w-5" />
                   </div>
                 </div>
@@ -374,36 +360,43 @@ export default function AdminDashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="mb-6 flex gap-2">
-          {(["quotes", "contacts", "prices", "activity"] as Tab[]).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium capitalize transition-colors ${
-                tab === t ? "bg-red-600 text-white" : "border border-white/10 text-gray-300 hover:text-white"
-              }`}
-            >
-              {t === "quotes" ? "Quote Requests" : t === "contacts" ? "Contact Requests" : t === "prices" ? "Price Manager" : "Activity Log"}
-            </button>
-          ))}
+        <div className="mb-8 flex flex-wrap gap-2">
+          {(["quotes", "contacts", "prices", "testimonials", "homepage", "settings", "activity"] as Tab[]).map((t) => {
+            const labels: Record<Tab, string> = {
+              quotes: "Quote Requests", contacts: "Contact Requests", prices: "Price Manager",
+              testimonials: "Testimonials", homepage: "Homepage", settings: "Settings", activity: "Activity Log",
+            }
+            return (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`rounded-xl px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
+                  tab === t
+                    ? "bg-red-600 text-white shadow-lg shadow-red-600/25"
+                    : "border border-white/[0.06] bg-white/[0.02] text-gray-400 hover:border-white/[0.12] hover:bg-white/[0.05] hover:text-white"
+                }`}
+              >
+                {labels[t]}
+              </button>
+            )
+          })}
         </div>
 
         {/* Quotes Tab */}
         {tab === "quotes" && (
-          <div className="space-y-4">
-            {/* Filters */}
+          <div className="space-y-5">
             <div className="flex flex-wrap gap-3">
               <input
                 type="text"
-                placeholder="Search company, contact, email…"
+                placeholder="Search company, contact, email..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="flex-1 min-w-[200px] rounded-lg border border-white/10 bg-[#1e293b] px-4 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-red-500"
+                className="flex-1 min-w-[220px] rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-red-500/40 focus:bg-white/[0.05] focus:shadow-lg focus:shadow-red-600/5"
               />
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
-                className="rounded-lg border border-white/10 bg-[#1e293b] px-3 py-2 text-sm text-gray-300 outline-none focus:border-red-500"
+                className="rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm text-gray-300 outline-none transition-all duration-200 focus:border-red-500/40"
               >
                 <option value="all">All Statuses</option>
                 {["Pending","Reviewing","Quoted","Accepted","Rejected","Completed","Cancelled"].map((s) => (
@@ -413,7 +406,7 @@ export default function AdminDashboard() {
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as SortOrder)}
-                className="rounded-lg border border-white/10 bg-[#1e293b] px-3 py-2 text-sm text-gray-300 outline-none focus:border-red-500"
+                className="rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm text-gray-300 outline-none transition-all duration-200 focus:border-red-500/40"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -423,36 +416,36 @@ export default function AdminDashboard() {
             </div>
 
             {loading ? (
-              <div className="py-12 text-center text-gray-400">Loading…</div>
+              <div className="py-16 text-center text-gray-400">Loading...</div>
             ) : filteredQuotes.length === 0 ? (
-              <div className="py-12 text-center text-gray-400">No quote requests found.</div>
+              <div className="py-16 text-center text-gray-400">No quote requests found.</div>
             ) : (
-              <div className="overflow-x-auto rounded-xl border border-white/10">
+              <div className="overflow-x-auto rounded-2xl border border-white/[0.06] shadow-lg shadow-black/10">
                 <table className="w-full text-sm">
-                  <thead className="border-b border-white/10 bg-[#1e293b]">
+                  <thead className="border-b border-white/[0.06] bg-white/[0.03]">
                     <tr>
                       {["Company","Contact","Email","Metals","Date","Status","Action"].map((h) => (
-                        <th key={h} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">{h}</th>
+                        <th key={h} className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">{h}</th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
+                  <tbody className="divide-y divide-white/[0.04]">
                     {filteredQuotes.map((q) => (
-                      <tr key={q.id} className="bg-[#0f172a] transition-colors hover:bg-[#1e293b]">
-                        <td className="px-4 py-3 font-medium text-white">{q.company_name}</td>
-                        <td className="px-4 py-3 text-gray-300">{q.contact_person}</td>
-                        <td className="px-4 py-3 text-gray-400">{q.email}</td>
-                        <td className="px-4 py-3 text-gray-400">{q.metal_type.join(", ")}</td>
-                        <td className="px-4 py-3 text-gray-400">{formatDisplayDateOnly(q.created_at)}</td>
-                        <td className="px-4 py-3">
-                          <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColor[q.status] ?? "bg-gray-500/20 text-gray-400"}`}>
+                      <tr key={q.id} className="bg-[#0c1222] transition-colors duration-200 hover:bg-white/[0.03]">
+                        <td className="px-5 py-4 font-medium text-white">{q.company_name}</td>
+                        <td className="px-5 py-4 text-gray-300">{q.contact_person}</td>
+                        <td className="px-5 py-4 text-gray-400">{q.email}</td>
+                        <td className="px-5 py-4 text-gray-400">{q.metal_type.join(", ")}</td>
+                        <td className="px-5 py-4 text-gray-400">{formatDisplayDateOnly(q.created_at)}</td>
+                        <td className="px-5 py-4">
+                          <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${statusColor[q.status] ?? "bg-gray-500/15 text-gray-400 border border-gray-500/20"}`}>
                             {q.status}
                           </span>
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-5 py-4">
                           <button
                             onClick={() => openQuote(q)}
-                            className="rounded border border-red-500/30 px-3 py-1 text-xs text-red-400 transition-colors hover:bg-red-500/10"
+                            className="rounded-lg border border-red-500/20 px-4 py-1.5 text-xs font-medium text-red-400 transition-all duration-200 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300"
                           >
                             Manage
                           </button>
@@ -470,29 +463,29 @@ export default function AdminDashboard() {
         {tab === "contacts" && (
           <div>
             {loading ? (
-              <div className="py-12 text-center text-gray-400">Loading…</div>
+              <div className="py-16 text-center text-gray-400">Loading...</div>
             ) : contacts.length === 0 ? (
-              <div className="py-12 text-center text-gray-400">No contact requests yet.</div>
+              <div className="py-16 text-center text-gray-400">No contact requests yet.</div>
             ) : (
-              <div className="overflow-x-auto rounded-xl border border-white/10">
+              <div className="overflow-x-auto rounded-2xl border border-white/[0.06] shadow-lg shadow-black/10">
                 <table className="w-full text-sm">
-                  <thead className="border-b border-white/10 bg-[#1e293b]">
+                  <thead className="border-b border-white/[0.06] bg-white/[0.03]">
                     <tr>
                       {["Name","Company","Phone","Email","Metal Type","Message","Date"].map((h) => (
-                        <th key={h} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">{h}</th>
+                        <th key={h} className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">{h}</th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
+                  <tbody className="divide-y divide-white/[0.04]">
                     {contacts.map((c) => (
-                      <tr key={c.id} className="bg-[#0f172a] transition-colors hover:bg-[#1e293b]">
-                        <td className="px-4 py-3 font-medium text-white">{c.customer_name}</td>
-                        <td className="px-4 py-3 text-gray-300">{c.company_name ?? "—"}</td>
-                        <td className="px-4 py-3 text-gray-400">{c.phone_number}</td>
-                        <td className="px-4 py-3 text-gray-400">{c.email ?? "—"}</td>
-                        <td className="px-4 py-3 text-gray-400">{c.metal_type}</td>
-                        <td className="max-w-xs truncate px-4 py-3 text-gray-400">{c.message}</td>
-                        <td className="px-4 py-3 text-gray-400">{formatDisplayDateOnly(c.created_at)}</td>
+                      <tr key={c.id} className="bg-[#0c1222] transition-colors duration-200 hover:bg-white/[0.03]">
+                        <td className="px-5 py-4 font-medium text-white">{c.customer_name}</td>
+                        <td className="px-5 py-4 text-gray-300">{c.company_name ?? "---"}</td>
+                        <td className="px-5 py-4 text-gray-400">{c.phone_number}</td>
+                        <td className="px-5 py-4 text-gray-400">{c.email ?? "---"}</td>
+                        <td className="px-5 py-4 text-gray-400">{c.metal_type}</td>
+                        <td className="max-w-xs truncate px-5 py-4 text-gray-400">{c.message}</td>
+                        <td className="px-5 py-4 text-gray-400">{formatDisplayDateOnly(c.created_at)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -507,38 +500,57 @@ export default function AdminDashboard() {
 
         {/* Prices Tab */}
         {tab === "prices" && <PricesManager />}
+
+        {/* Testimonials Tab */}
+        {tab === "testimonials" && <TestimonialsManager />}
+
+        {/* Homepage Tab */}
+        {tab === "homepage" && <HomepageManager />}
+
+        {/* Settings Tab */}
+        {tab === "settings" && <SettingsManager />}
       </div>
 
       {/* Quote Management Drawer */}
       {selectedQuote && (
-        <div className="fixed inset-0 z-50 flex items-start justify-end bg-black/60 backdrop-blur-sm" onClick={() => setSelectedQuote(null)}>
+        <div className="fixed inset-0 z-50 flex items-start justify-end bg-black/60 backdrop-blur-sm transition-opacity" onClick={() => setSelectedQuote(null)}>
           <div
-            className="h-full w-full max-w-xl overflow-y-auto bg-[#1e293b] p-6 shadow-2xl"
+            className="h-full w-full max-w-xl overflow-y-auto bg-[#111827] p-8 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-white">Manage Quote</h2>
-              <button onClick={() => setSelectedQuote(null)} className="text-gray-400 hover:text-white text-xl leading-none">✕</button>
+            <div className="mb-8 flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-white">Manage Quote</h2>
+                <p className="mt-1 text-sm text-gray-500">Update quote details and status</p>
+              </div>
+              <button
+                onClick={() => setSelectedQuote(null)}
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-gray-400 transition-all duration-200 hover:border-white/[0.15] hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
 
-            {/* Customer Info (read-only) */}
-            <div className="mb-6 rounded-xl border border-white/10 bg-[#0f172a] p-4 space-y-2 text-sm">
-              <h3 className="font-semibold text-red-400 mb-3">Customer Details</h3>
-              <InfoRow label="Company" value={selectedQuote.company_name} />
-              <InfoRow label="Contact" value={selectedQuote.contact_person} />
-              <InfoRow label="Email" value={selectedQuote.email} />
-              <InfoRow label="Phone" value={selectedQuote.phone_number} />
-              <InfoRow label="Metals" value={selectedQuote.metal_type.join(", ")} />
-              <InfoRow label="Weight" value={`${selectedQuote.estimated_weight} kg`} />
-              <InfoRow label="Address" value={selectedQuote.pickup_address} />
-              <InfoRow label="Preferred Date" value={selectedQuote.preferred_pickup_date} />
-              {selectedQuote.additional_notes && <InfoRow label="Notes" value={selectedQuote.additional_notes} />}
-              <InfoRow label="Submitted" value={formatDisplayDate(selectedQuote.created_at)} />
+            {/* Customer Info */}
+            <div className="mb-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-red-400">Customer Details</h3>
+              <div className="space-y-3">
+                <InfoRow label="Company" value={selectedQuote.company_name} />
+                <InfoRow label="Contact" value={selectedQuote.contact_person} />
+                <InfoRow label="Email" value={selectedQuote.email} />
+                <InfoRow label="Phone" value={selectedQuote.phone_number} />
+                <InfoRow label="Metals" value={selectedQuote.metal_type.join(", ")} />
+                <InfoRow label="Weight" value={`${selectedQuote.estimated_weight} kg`} />
+                <InfoRow label="Address" value={selectedQuote.pickup_address} />
+                <InfoRow label="Preferred Date" value={selectedQuote.preferred_pickup_date} />
+                {selectedQuote.additional_notes && <InfoRow label="Notes" value={selectedQuote.additional_notes} />}
+                <InfoRow label="Submitted" value={formatDisplayDate(selectedQuote.created_at)} />
+              </div>
             </div>
 
-            {/* Admin Management Fields */}
-            <div className="space-y-4">
-              <h3 className="font-semibold text-red-400">Internal Management</h3>
+            {/* Admin Fields */}
+            <div className="space-y-5">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-red-400">Internal Management</h3>
 
               <Field label="Quotation Status">
                 <select value={mgmtRecord.quotation_status ?? "Pending"} onChange={(e) => setMgmtRecord((p) => ({ ...p, quotation_status: e.target.value as QuoteStatus }))} className={selectCls}>
@@ -558,8 +570,8 @@ export default function AdminDashboard() {
                 </select>
               </Field>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Quotation Amount (SGD)">
+              <div className="grid grid-cols-2 gap-5">
+                <Field label="Amount (SGD)">
                   <input type="number" value={mgmtRecord.quotation_amount ?? ""} onChange={(e) => setMgmtRecord((p) => ({ ...p, quotation_amount: parseFloat(e.target.value) }))} className={inputCls} placeholder="0.00" />
                 </Field>
                 <Field label="Currency">
@@ -579,28 +591,40 @@ export default function AdminDashboard() {
                 <input type="datetime-local" value={mgmtRecord.pickup_schedule?.slice(0,16) ?? ""} onChange={(e) => setMgmtRecord((p) => ({ ...p, pickup_schedule: e.target.value }))} className={inputCls} />
               </Field>
 
-              <Field label="Follow-up Date">
-                <input type="date" value={mgmtRecord.follow_up_date ?? ""} onChange={(e) => setMgmtRecord((p) => ({ ...p, follow_up_date: e.target.value }))} className={inputCls} />
-              </Field>
-
-              <Field label="Completed Date">
-                <input type="date" value={mgmtRecord.completed_date ?? ""} onChange={(e) => setMgmtRecord((p) => ({ ...p, completed_date: e.target.value }))} className={inputCls} />
-              </Field>
+              <div className="grid grid-cols-2 gap-5">
+                <Field label="Follow-up Date">
+                  <input type="date" value={mgmtRecord.follow_up_date ?? ""} onChange={(e) => setMgmtRecord((p) => ({ ...p, follow_up_date: e.target.value }))} className={inputCls} />
+                </Field>
+                <Field label="Completed Date">
+                  <input type="date" value={mgmtRecord.completed_date ?? ""} onChange={(e) => setMgmtRecord((p) => ({ ...p, completed_date: e.target.value }))} className={inputCls} />
+                </Field>
+              </div>
 
               <Field label="Internal Notes">
-                <textarea rows={4} value={mgmtRecord.internal_notes ?? ""} onChange={(e) => setMgmtRecord((p) => ({ ...p, internal_notes: e.target.value }))} className={`${inputCls} resize-none`} placeholder="Internal notes visible only to admin…" />
+                <textarea
+                  rows={4}
+                  value={mgmtRecord.internal_notes ?? ""}
+                  onChange={(e) => setMgmtRecord((p) => ({ ...p, internal_notes: e.target.value }))}
+                  className={`${inputCls} resize-none`}
+                  placeholder="Internal notes visible only to admin..."
+                />
               </Field>
 
               {saveMsg && (
-                <p className={`text-sm ${saveMsg.includes("success") ? "text-green-400" : "text-red-400"}`}>{saveMsg}</p>
+                <div className={`flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium ${saveMsg.includes("success") ? "border border-green-500/20 bg-green-500/10 text-green-400" : "border border-red-500/20 bg-red-500/10 text-red-400"}`}>
+                  <CheckCircle2 className="h-4 w-4 shrink-0" />
+                  <span>{saveMsg}</span>
+                  {saveTimestamp && <span className="ml-auto text-xs opacity-60">Last saved: {saveTimestamp}</span>}
+                </div>
               )}
 
               <button
                 onClick={handleSaveMgmt}
                 disabled={saving}
-                className="w-full rounded-lg bg-red-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-500 disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 py-3 text-sm font-semibold text-white shadow-lg shadow-red-600/20 transition-all duration-200 hover:bg-red-500 hover:shadow-xl hover:shadow-red-600/30 disabled:opacity-60"
               >
-                {saving ? "Saving…" : "Save Record"}
+                <Save className="h-4 w-4" />
+                {saving ? "Saving..." : "Save Record"}
               </button>
             </div>
           </div>
@@ -612,21 +636,21 @@ export default function AdminDashboard() {
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex gap-2">
-      <span className="w-28 shrink-0 text-gray-400">{label}:</span>
-      <span className="text-white break-all">{value}</span>
+    <div className="flex gap-3">
+      <span className="w-28 shrink-0 text-sm text-gray-500">{label}:</span>
+      <span className="text-sm text-white break-all">{value}</span>
     </div>
   )
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-1.5">
-      <label className="text-xs font-medium text-gray-400">{label}</label>
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-gray-300">{label}</label>
       {children}
     </div>
   )
 }
 
-const inputCls = "w-full rounded-lg border border-white/10 bg-[#0f172a] px-3 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-red-500 transition-colors"
-const selectCls = "w-full rounded-lg border border-white/10 bg-[#0f172a] px-3 py-2 text-sm text-white outline-none focus:border-red-500 transition-colors"
+const inputCls = "w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-red-500/40 focus:bg-white/[0.05] focus:shadow-lg focus:shadow-red-600/5"
+const selectCls = "w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition-all duration-200 focus:border-red-500/40"

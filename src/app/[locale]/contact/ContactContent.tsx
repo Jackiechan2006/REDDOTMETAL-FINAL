@@ -20,24 +20,21 @@ type SiteSettings = {
 export default function ContactContent() {
   const t = useTranslations("contact")
   const settings = useRemoteJson<SiteSettings>("/api/settings", {
-    phone: "+65 8867 3343",
-    whatsapp: "https://wa.me/6588673343",
-    email: "sgreddotmetal@gmail.com",
-    address: "Blk 236, #05-141,\nBukit Batok East Ave 5,\nSingapore 650236",
-    google_maps_url:
-      "https://www.google.com/maps/search/?api=1&query=Blk%20236,%20%2305-141,%20Bukit%20Batok%20East%20Ave%205,%20Singapore%20650236",
-    business_hours: "7:00 AM – 11:00 PM (Daily)",
+    phone: "",
+    whatsapp: "",
+    email: "",
+    address: "",
+    google_maps_url: "",
+    business_hours: "",
   }, (payload) => {
-    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    const s = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
     return {
-      phone: siteSettings.phone ?? "+65 8867 3343",
-      whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343",
-      email: siteSettings.email ?? "sgreddotmetal@gmail.com",
-      address: siteSettings.address ?? "Blk 236, #05-141,\nBukit Batok East Ave 5,\nSingapore 650236",
-      google_maps_url:
-        siteSettings.google_maps_url ??
-        "https://www.google.com/maps/search/?api=1&query=Blk%20236,%20%2305-141,%20Bukit%20Batok%20East%20Ave%205,%20Singapore%20650236",
-      business_hours: siteSettings.business_hours ?? "7:00 AM – 11:00 PM (Daily)",
+      phone: s.phone ?? "",
+      whatsapp: s.whatsapp ?? "",
+      email: s.email ?? "",
+      address: s.address ?? "",
+      google_maps_url: s.google_maps_url ?? "",
+      business_hours: s.business_hours ?? "",
     }
   })
 

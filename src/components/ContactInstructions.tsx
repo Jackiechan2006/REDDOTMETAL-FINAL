@@ -3,11 +3,12 @@
 import { useTranslations } from "next-intl"
 import { motion } from "framer-motion"
 import { MessageCircle, Phone } from "lucide-react"
+import { useRemoteJson } from "@/lib/useRemoteJson"
 
-const contactDetails = [
-  { icon: Phone, label: "Phone", valueKey: "details.phone", href: "tel:+6567891234" },
-  { icon: MessageCircle, label: "WhatsApp", valueKey: "details.whatsapp", href: "https://wa.me/6567891234" },
-]
+type SiteSettings = {
+  phone: string
+  whatsapp: string
+}
 
 const instructionIcons = [
   "📸",
@@ -19,27 +20,36 @@ export default function ContactInstructions() {
   const t = useTranslations("contact")
   const steps = t.raw("instructions.steps") as { number: number; title: string; desc: string }[]
 
+  const settings = useRemoteJson<SiteSettings>("/api/settings", { phone: "", whatsapp: "" }, (payload) => {
+    const s = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    return { phone: s.phone ?? "", whatsapp: s.whatsapp ?? "" }
+  })
+
   return (
     <div className="space-y-8">
       <div className="rounded-xl border border-white/10 bg-[#1e293b] p-6">
         <h3 className="mb-4 text-lg font-bold text-white">{t("quickActions.title")}</h3>
         <div className="flex flex-wrap gap-3">
-          <a
-            href="https://wa.me/6567891234"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-lg bg-green-500/10 px-4 py-2.5 text-sm font-medium text-green-400 transition-colors hover:bg-green-500/20"
-          >
-            <MessageCircle className="h-4 w-4" />
-            {t("quickActions.whatsapp")}
-          </a>
-          <a
-            href="tel:+6567891234"
-            className="flex items-center gap-2 rounded-lg bg-red-600/10 px-4 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-600/20"
-          >
-            <Phone className="h-4 w-4" />
-            {t("quickActions.call")}
-          </a>
+          {settings.whatsapp && (
+            <a
+              href={settings.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-lg bg-green-500/10 px-4 py-2.5 text-sm font-medium text-green-400 transition-colors hover:bg-green-500/20"
+            >
+              <MessageCircle className="h-4 w-4" />
+              {t("quickActions.whatsapp")}
+            </a>
+          )}
+          {settings.phone && (
+            <a
+              href={`tel:${settings.phone.replace(/\s+/g, "")}`}
+              className="flex items-center gap-2 rounded-lg bg-red-600/10 px-4 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-600/20"
+            >
+              <Phone className="h-4 w-4" />
+              {t("quickActions.call")}
+            </a>
+          )}
         </div>
       </div>
 

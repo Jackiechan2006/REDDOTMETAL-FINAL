@@ -1,4 +1,5 @@
 import HeroSection from "./HeroSection"
+import AboutSection from "./AboutSection"
 import StatsSection from "./StatsSection"
 import ServicesSection from "./ServicesSection"
 import HowItWorksSection from "./HowItWorksSection"
@@ -15,6 +16,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <AboutSection />
       <StatsSection />
       <ServicesSection />
       <HowItWorksSection />

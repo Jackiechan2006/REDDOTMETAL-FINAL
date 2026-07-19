@@ -12,7 +12,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS public.site_content (
   id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  kind          TEXT NOT NULL CHECK (kind IN ('price','testimonial','service','image','setting')),
+  kind          TEXT NOT NULL CHECK (kind IN ('price','testimonial','service','image','setting','homepage')),
   title         TEXT NOT NULL,
   subtitle      TEXT,
   body          TEXT,
@@ -45,6 +45,11 @@ CREATE POLICY "Allow public read active prices"
   ON public.site_content FOR SELECT
   TO anon
   USING (kind = 'price' AND is_active = true AND status != 'deleted');
+
+CREATE POLICY "Allow public read active homepage"
+  ON public.site_content FOR SELECT
+  TO anon
+  USING (kind = 'homepage' AND is_active = true AND status != 'deleted');
 
 CREATE POLICY "Allow admin insert on site_content"
   ON public.site_content FOR INSERT
@@ -169,3 +174,35 @@ CREATE INDEX IF NOT EXISTS idx_activity_log_created
 
 CREATE INDEX IF NOT EXISTS idx_activity_log_entity
   ON public.activity_log(entity_type, entity_id);
+
+-- ============================================================
+-- 4. Homepage content seed
+-- ============================================================
+
+INSERT INTO public.site_content (kind, title, body, sort_order, is_active, status, approved)
+SELECT 'homepage', 'sections',
+  '{"hero":{"title":"Singapore''s Reliable Scrap Metal Recycling & Trading","subtitle":"","button_text":"Request Pickup","button_link":"/quote","secondary_button_text":"Our Services","secondary_button_link":"/services"},"about":{"title":"About Red Dot Metal","description":"Red Dot Metal is a Singapore-based B2B scrap metal recycling and trading company dedicated to providing reliable, transparent, and environmentally responsible metal waste management solutions.","image_url":""},"whyUs":{"title":"Why Choose Red Dot Metal","description":"We make scrap metal recycling easy, transparent, and profitable","features":[{"title":"Same-Day Service","desc":"We respond within hours and pick up on the same day."},{"title":"Free Pickup","desc":"No hidden fees. We collect your scrap metal at no cost."},{"title":"Immediate Payment","desc":"Get paid immediately via PayNow, bank transfer, or cash."},{"title":"Transparent Pricing","desc":"Real-time market rates with clear weight and price breakdown."},{"title":"Licensed & Certified","desc":"Fully licensed by NEA. Compliant with all regulations."},{"title":"We Cover All Areas","desc":"Serving all of Singapore — East, West, North, South, Central."}]},"stats":[{"value":20,"suffix":"+","label":"Years Experience","sort_order":1},{"value":50000,"suffix":"+","label":"Tons Collected","sort_order":2},{"value":20,"suffix":"","label":"Clients Served","sort_order":3},{"value":90,"suffix":"%","label":"Same-Day Pickup","sort_order":4}],"cta":{"title":"Ready to turn your scrap into cash?","description":"","button_text":"Schedule a Pickup Today","button_link":"/quote"}}',
+  0, true, 'active', true
+WHERE NOT EXISTS (
+  SELECT 1 FROM public.site_content WHERE kind = 'homepage' AND title = 'sections'
+);
+
+-- ============================================================
+-- 5. Alter existing databases: add 'homepage' to CHECK constraint
+-- ============================================================
+
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname LIKE '%kind%'
+      AND conrelid = 'public.site_content'::regclass
+  ) THEN
+    ALTER TABLE public.site_content
+      DROP CONSTRAINT IF EXISTS site_content_kind_check;
+
+    ALTER TABLE public.site_content
+      ADD CONSTRAINT site_content_kind_check
+      CHECK (kind IN ('price','testimonial','service','image','setting','homepage'));
+  END IF;
+END $$;

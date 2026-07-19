@@ -12,9 +12,9 @@ type SiteSettings = {
 
 export default function QuoteContent() {
   const t = useTranslations("quote")
-  const settings = useRemoteJson<SiteSettings>("/api/settings", { whatsapp: "https://wa.me/6588673343" }, (payload) => {
-    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
-    return { whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343" }
+  const settings = useRemoteJson<SiteSettings>("/api/settings", { whatsapp: "" }, (payload) => {
+    const s = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    return { whatsapp: s.whatsapp ?? "" }
   })
 
   return (

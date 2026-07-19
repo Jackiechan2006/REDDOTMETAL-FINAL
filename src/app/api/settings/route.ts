@@ -5,14 +5,16 @@ import { logAdminAction } from "@/app/api/admin/activity/log"
 
 const fallbackSettings = {
   company_name: "Red Dot Metal",
-  phone: "+65 8867 3343",
-  whatsapp: "https://wa.me/6588673343",
-  email: "sgreddotmetal@gmail.com",
-  address: "Blk 236, #05-141, Bukit Batok East Ave 5, Singapore 650236",
-  google_maps_url:
-    "https://www.google.com/maps/search/?api=1&query=Blk%20236,%20%2305-141,%20Bukit%20Batok%20East%20Ave%205,%20Singapore%20650236",
-  business_hours: "7:00 AM – 11:00 PM (Daily)",
+  phone: "",
+  whatsapp: "",
+  email: "",
+  address: "",
+  google_maps_url: "",
+  business_hours: "",
   footer_text: "Singapore's trusted B2B scrap metal recycling partner.",
+  facebook_url: "",
+  instagram_url: "",
+  linkedin_url: "",
 }
 
 export async function GET() {

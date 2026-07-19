@@ -40,13 +40,13 @@ export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const settings = useRemoteJson<SiteSettings>("/api/settings", {
-    phone: "+65 8867 3343",
-    whatsapp: "https://wa.me/6588673343",
+    phone: "",
+    whatsapp: "",
   }, (payload) => {
-    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    const s = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
     return {
-      phone: siteSettings.phone ?? "+65 8867 3343",
-      whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343",
+      phone: s.phone ?? "",
+      whatsapp: s.whatsapp ?? "",
     }
   })
 
