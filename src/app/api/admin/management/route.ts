@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { validateAdminRequest, unauthorizedResponse } from "@/lib/adminAuth"
 import { createAdminRecord, updateAdminRecord, getAdminRecordByQuoteId } from "@/services/adminService"
+import { logAdminAction } from "@/app/api/admin/activity/log"
 
 const createSchema = z.object({
   quote_request_id: z.string().uuid(),
@@ -30,6 +31,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const data = createSchema.parse(body)
     const record = await createAdminRecord(data)
+    await logAdminAction(req, { entity_type: "quote_management", entity_id: record.id, action: "created", after_json: { quote_request_id: data.quote_request_id, status: data.quotation_status } })
     return NextResponse.json({ record })
   } catch (error) {
     if (error instanceof z.ZodError) return NextResponse.json({ error: error.issues }, { status: 400 })
@@ -45,7 +47,17 @@ export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json()
     const { id, ...updates } = updateSchema.parse(body)
+    const existing = body.quote_request_id ? await getAdminRecordByQuoteId(body.quote_request_id) : null
     const record = await updateAdminRecord(id, updates)
+    if (updates.quotation_status) {
+      await logAdminAction(req, {
+        entity_type: "quote",
+        entity_id: record.quote_request_id,
+        action: "status_changed",
+        before_json: { quotation_status: existing?.quotation_status, payment_status: existing?.payment_status },
+        after_json: { quotation_status: record.quotation_status, payment_status: record.payment_status },
+      })
+    }
     return NextResponse.json({ record })
   } catch (error) {
     if (error instanceof z.ZodError) return NextResponse.json({ error: error.issues }, { status: 400 })

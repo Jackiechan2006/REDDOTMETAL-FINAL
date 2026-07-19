@@ -18,7 +18,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export default function WhatWeCollectSection() {
   const t = useTranslations("home.whatWeCollect")
-  const items = t.raw("items") as { name: string; desc: string }[]
+  const items = [...(t.raw("items") as { name: string; desc: string }[])].sort((a, b) => a.name.localeCompare(b.name))
 
   return (
     <AnimatedSection className="border-t border-white/5 py-20">

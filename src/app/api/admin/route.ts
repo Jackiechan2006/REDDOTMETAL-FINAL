@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@reddotmetal.com";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
-let inquiries: { id: string; name: string; company?: string; phone: string; message: string; createdAt: string }[] = [];
+const inquiries: { id: string; name: string; company?: string; phone: string; message: string; createdAt: string }[] = [];
 
 export async function POST(req: NextRequest) {
   try {

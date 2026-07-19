@@ -7,6 +7,8 @@ import { CheckCircle, Clock, ChevronDown, Eye, FileText, FileSpreadsheet, Mail, 
 import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
 import * as XLSX from "xlsx"
+import ActivityLogTab from "./ActivityLog"
+import PricesManager from "./PricesManager"
 import type {
   QuoteRequestWithManagement,
   ContactRequest,
@@ -15,8 +17,9 @@ import type {
   PaymentStatus,
   CustomerPriority,
 } from "@/types/database"
+import { formatDisplayDate, formatDisplayDateOnly } from "@/lib/siteContent"
 
-type Tab = "quotes" | "contacts"
+type Tab = "quotes" | "contacts" | "prices" | "activity"
 type FilterStatus = "all" | QuoteStatus
 type SortOrder = "newest" | "oldest" | "pending" | "completed"
 
@@ -137,14 +140,14 @@ export default function AdminDashboard() {
   const statusColor: Record<string, string> = {
     Pending: "bg-yellow-500/20 text-yellow-400",
     Reviewing: "bg-blue-500/20 text-blue-400",
-    Quoted: "bg-purple-500/20 text-purple-400",
+    Quoted: "bg-amber-500/20 text-amber-400",
     Accepted: "bg-green-500/20 text-green-400",
     Rejected: "bg-red-500/20 text-red-400",
     Completed: "bg-emerald-500/20 text-emerald-400",
     Cancelled: "bg-gray-500/20 text-gray-400",
   }
 
-  const exportRows = quotes.map((quote) => {
+  const exportRows = filteredQuotes.map((quote) => {
     const management = quote.admin_quote_management?.[0]
 
     return {
@@ -161,7 +164,7 @@ export default function AdminDashboard() {
       "Quotation Amount": management?.quotation_amount ?? "",
       "Payment Status": management?.payment_status ?? "",
       "Customer Priority": management?.customer_priority ?? "",
-      "Created Date": new Date(quote.created_at).toLocaleString(),
+      "Created Date": formatDisplayDate(quote.created_at),
     }
   })
 
@@ -331,8 +334,8 @@ export default function AdminDashboard() {
               label: "Reviewing Quotes",
               value: quotes.filter((q) => q.status === "Reviewing").length,
               icon: Eye,
-              tone: "from-purple-500/20 to-fuchsia-600/10 border-purple-500/20 text-purple-300",
-              iconTone: "bg-purple-500/15 text-purple-300",
+              tone: "from-amber-500/20 to-orange-600/10 border-amber-500/20 text-amber-300",
+              iconTone: "bg-amber-500/15 text-amber-300",
             },
             {
               label: "Completed Quotes",
@@ -372,7 +375,7 @@ export default function AdminDashboard() {
 
         {/* Tabs */}
         <div className="mb-6 flex gap-2">
-          {(["quotes", "contacts"] as Tab[]).map((t) => (
+          {(["quotes", "contacts", "prices", "activity"] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -380,7 +383,7 @@ export default function AdminDashboard() {
                 tab === t ? "bg-red-600 text-white" : "border border-white/10 text-gray-300 hover:text-white"
               }`}
             >
-              {t === "quotes" ? "Quote Requests" : "Contact Requests"}
+              {t === "quotes" ? "Quote Requests" : t === "contacts" ? "Contact Requests" : t === "prices" ? "Price Manager" : "Activity Log"}
             </button>
           ))}
         </div>
@@ -440,7 +443,7 @@ export default function AdminDashboard() {
                         <td className="px-4 py-3 text-gray-300">{q.contact_person}</td>
                         <td className="px-4 py-3 text-gray-400">{q.email}</td>
                         <td className="px-4 py-3 text-gray-400">{q.metal_type.join(", ")}</td>
-                        <td className="px-4 py-3 text-gray-400">{new Date(q.created_at).toLocaleDateString()}</td>
+                        <td className="px-4 py-3 text-gray-400">{formatDisplayDateOnly(q.created_at)}</td>
                         <td className="px-4 py-3">
                           <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColor[q.status] ?? "bg-gray-500/20 text-gray-400"}`}>
                             {q.status}
@@ -489,7 +492,7 @@ export default function AdminDashboard() {
                         <td className="px-4 py-3 text-gray-400">{c.email ?? "—"}</td>
                         <td className="px-4 py-3 text-gray-400">{c.metal_type}</td>
                         <td className="max-w-xs truncate px-4 py-3 text-gray-400">{c.message}</td>
-                        <td className="px-4 py-3 text-gray-400">{new Date(c.created_at).toLocaleDateString()}</td>
+                        <td className="px-4 py-3 text-gray-400">{formatDisplayDateOnly(c.created_at)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -498,6 +501,12 @@ export default function AdminDashboard() {
             )}
           </div>
         )}
+
+        {/* Activity Log Tab */}
+        {tab === "activity" && <ActivityLogTab />}
+
+        {/* Prices Tab */}
+        {tab === "prices" && <PricesManager />}
       </div>
 
       {/* Quote Management Drawer */}
@@ -524,7 +533,7 @@ export default function AdminDashboard() {
               <InfoRow label="Address" value={selectedQuote.pickup_address} />
               <InfoRow label="Preferred Date" value={selectedQuote.preferred_pickup_date} />
               {selectedQuote.additional_notes && <InfoRow label="Notes" value={selectedQuote.additional_notes} />}
-              <InfoRow label="Submitted" value={new Date(selectedQuote.created_at).toLocaleString()} />
+              <InfoRow label="Submitted" value={formatDisplayDate(selectedQuote.created_at)} />
             </div>
 
             {/* Admin Management Fields */}

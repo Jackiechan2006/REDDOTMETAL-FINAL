@@ -4,9 +4,25 @@ import { useTranslations } from "next-intl"
 import { motion } from "framer-motion"
 import { MapPin, MessageCircle, Phone } from "lucide-react"
 import AnimatedSection from "@/components/AnimatedSection"
+import { useRemoteJson } from "@/lib/useRemoteJson"
+
+type SiteSettings = {
+  phone: string
+  whatsapp: string
+}
 
 export default function ServiceAreaContent() {
   const t = useTranslations("serviceArea")
+  const settings = useRemoteJson<SiteSettings>("/api/settings", {
+    phone: "+65 8867 3343",
+    whatsapp: "https://wa.me/6588673343",
+  }, (payload) => {
+    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    return {
+      phone: siteSettings.phone ?? "+65 8867 3343",
+      whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343",
+    }
+  })
 
   return (
     <>
@@ -41,12 +57,12 @@ export default function ServiceAreaContent() {
           </div>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a href="https://wa.me/6588673343" target="_blank" rel="noopener noreferrer"
+            <a href={settings.whatsapp} target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg bg-green-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-400">
               <MessageCircle className="h-4 w-4" />
               WhatsApp Us
             </a>
-            <a href="tel:+6588673343"
+            <a href={`tel:${settings.phone.replace(/\s+/g, "")}`}
               className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-500">
               <Phone className="h-4 w-4" />
               Call Now

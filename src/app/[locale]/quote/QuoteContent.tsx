@@ -1,15 +1,21 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { Link } from "@/i18n/routing"
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, MessageCircle } from "lucide-react"
+import { MessageCircle } from "lucide-react"
 import QuoteForm from "@/components/QuoteForm"
-import AnimatedSection from "@/components/AnimatedSection"
+import { useRemoteJson } from "@/lib/useRemoteJson"
+
+type SiteSettings = {
+  whatsapp: string
+}
 
 export default function QuoteContent() {
   const t = useTranslations("quote")
+  const settings = useRemoteJson<SiteSettings>("/api/settings", { whatsapp: "https://wa.me/6588673343" }, (payload) => {
+    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    return { whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343" }
+  })
 
   return (
     <>
@@ -45,7 +51,7 @@ export default function QuoteContent() {
             <h3 className="text-lg font-bold text-green-400">{t("quickQuote.title")}</h3>
             <p className="mt-1 text-sm text-gray-400">{t("quickQuote.desc")}</p>
             <a
-              href="https://wa.me/6588673343"
+              href={settings.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-2 rounded-lg bg-green-500 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-400"

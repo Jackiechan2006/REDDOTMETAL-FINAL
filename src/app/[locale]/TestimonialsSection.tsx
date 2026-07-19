@@ -4,10 +4,17 @@ import { useTranslations } from "next-intl"
 import { motion } from "framer-motion"
 import { Star, User } from "lucide-react"
 import AnimatedSection from "@/components/AnimatedSection"
+import { useRemoteJson } from "@/lib/useRemoteJson"
+
+type TestimonialRow = { id: string; name: string; role?: string; company?: string; yearsAgo?: string; text: string; rating: number }
 
 export default function TestimonialsSection() {
   const t = useTranslations("home.testimonials")
-  const items = t.raw("items") as { name: string; role: string; yearsAgo: string; text: string; rating: number }[]
+  const fallbackItems = t.raw("items") as TestimonialRow[]
+  const items = useRemoteJson<TestimonialRow[]>("/api/testimonials", fallbackItems, (payload) => {
+    const remoteTestimonials = (payload as { testimonials?: TestimonialRow[] })?.testimonials
+    return Array.isArray(remoteTestimonials) && remoteTestimonials.length > 0 ? remoteTestimonials : fallbackItems
+  })
 
   return (
     <AnimatedSection className="border-t border-white/5 py-20">
@@ -31,14 +38,14 @@ export default function TestimonialsSection() {
                   <Star key={j} className="h-4 w-4 fill-red-500 text-red-400" />
                 ))}
               </div>
-              <p className="mb-5 flex-1 text-sm leading-relaxed text-gray-300 italic">"{item.text}"</p>
+              <p className="mb-5 flex-1 text-sm leading-relaxed text-gray-300 italic">&ldquo;{item.text}&rdquo;</p>
               <div className="flex items-center gap-3 border-t border-white/5 pt-4">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-600/10 text-red-400">
                   <User className="h-4 w-4" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">{item.name}</p>
-                  <p className="text-xs text-gray-500">{item.role} · {item.yearsAgo}</p>
+                  <p className="text-xs text-gray-500">{item.role ?? item.company ?? "Customer"}{item.yearsAgo ? ` · ${item.yearsAgo}` : ""}</p>
                 </div>
               </div>
             </motion.div>

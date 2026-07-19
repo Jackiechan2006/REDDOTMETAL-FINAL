@@ -5,6 +5,18 @@ import { Link } from "@/i18n/routing"
 import { Phone, Mail, MapPin, MessageCircle, Clock } from "lucide-react"
 import LanguageSwitcher from "./LanguageSwitcher"
 import Image from "next/image"
+import { useRemoteJson } from "@/lib/useRemoteJson"
+
+type SiteSettings = {
+  company_name: string
+  phone: string
+  whatsapp: string
+  email: string
+  address: string
+  google_maps_url: string
+  business_hours: string
+  footer_text: string
+}
 
 const footerLinks = [
   { href: "/", label: "home" },
@@ -42,6 +54,31 @@ const socialLinks = [
 
 export default function Footer() {
   const t = useTranslations("common")
+  const settings = useRemoteJson<SiteSettings>("/api/settings", {
+    company_name: "Red Dot Metal",
+    phone: "+65 8867 3343",
+    whatsapp: "https://wa.me/6588673343",
+    email: "sgreddotmetal@gmail.com",
+    address: "Blk 236, #05-141, Bukit Batok East Ave 5, Singapore 650236",
+    google_maps_url:
+      "https://www.google.com/maps/search/?api=1&query=Blk%20236,%20%2305-141,%20Bukit%20Batok%20East%20Ave%205,%20Singapore%20650236",
+    business_hours: "7:00 AM – 11:00 PM (Daily)",
+    footer_text: t("footer.description"),
+  }, (payload) => {
+    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    return {
+      company_name: siteSettings.company_name ?? "Red Dot Metal",
+      phone: siteSettings.phone ?? "+65 8867 3343",
+      whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343",
+      email: siteSettings.email ?? "sgreddotmetal@gmail.com",
+      address: siteSettings.address ?? "Blk 236, #05-141, Bukit Batok East Ave 5, Singapore 650236",
+      google_maps_url:
+        siteSettings.google_maps_url ??
+        "https://www.google.com/maps/search/?api=1&query=Blk%20236,%20%2305-141,%20Bukit%20Batok%20East%20Ave%205,%20Singapore%20650236",
+      business_hours: siteSettings.business_hours ?? "7:00 AM – 11:00 PM (Daily)",
+      footer_text: siteSettings.footer_text ?? t("footer.description"),
+    }
+  })
 
   return (
     <footer className="border-t border-white/10 bg-[#0f172a]">
@@ -52,13 +89,13 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2">
               <Image src="/logo.jpeg" alt="Red Dot Metals" width={120} height={40} className="h-10 w-auto object-contain" />
             </Link>
-            <p className="text-sm text-gray-400">{t("footer.description")}</p>
+            <p className="text-sm text-gray-400">{settings.footer_text}</p>
             <div className="flex gap-3 pt-1">
-              <a href="https://wa.me/6588673343" target="_blank" rel="noopener noreferrer"
+              <a href={settings.whatsapp} target="_blank" rel="noopener noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-500/10 text-green-400 transition-colors hover:bg-green-500/20">
                 <MessageCircle className="h-4 w-4" />
               </a>
-              <a href="tel:+6588673343"
+              <a href={`tel:${settings.phone.replace(/\s+/g, "")}`}
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition-colors hover:bg-red-500/20">
                 <Phone className="h-4 w-4" />
               </a>
@@ -94,22 +131,29 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm text-gray-400">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                <a href="tel:+6588673343" className="hover:text-red-400 transition-colors">+65 8867 3343</a>
+                <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="hover:text-red-400 transition-colors">{settings.phone}</a>
               </li>
               <li>
-                <a href="https://wa.me/6588673343" target="_blank" rel="noopener noreferrer"
+                <a href={settings.whatsapp} target="_blank" rel="noopener noreferrer"
                   className="flex items-start gap-2 text-sm text-gray-400 transition-colors hover:text-green-400">
                   <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                  WhatsApp: +65 8867 3343
+                  WhatsApp: {settings.phone}
                 </a>
               </li>
               <li className="flex items-start gap-2 text-sm text-gray-400">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                <a href="mailto:sgreddotmetal@gmail.com" className="hover:text-red-400 transition-colors break-all">sgreddotmetal@gmail.com</a>
+                <a href={`mailto:${settings.email}`} className="hover:text-red-400 transition-colors break-all">{settings.email}</a>
               </li>
               <li className="flex items-start gap-2 text-sm text-gray-400">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                <span>Blk 236, #05-141, Bukit Batok East Ave 5, Singapore 650236</span>
+                <a
+                  href={settings.google_maps_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-red-400"
+                >
+                  {settings.address}
+                </a>
               </li>
             </ul>
           </div>
@@ -119,7 +163,7 @@ export default function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300">Operating Hours</h3>
             <div className="flex items-start gap-2 text-sm text-gray-400">
               <Clock className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-              <span>7:00 AM – 11:00 PM (Daily)</span>
+              <span>{settings.business_hours}</span>
             </div>
             <div className="pt-2">
               <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-300">Follow Us</h3>

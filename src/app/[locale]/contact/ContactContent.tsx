@@ -6,17 +6,48 @@ import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react"
 import AnimatedSection from "@/components/AnimatedSection"
 import ContactForm from "@/components/ContactForm"
 import ContactInstructions from "@/components/ContactInstructions"
+import { useRemoteJson } from "@/lib/useRemoteJson"
 
-const contactDetails = [
-  { icon: Phone, label: "Phone", valueKey: "details.phone", href: "tel:+6588673343" },
-  { icon: MessageCircle, label: "WhatsApp", valueKey: "details.whatsapp", href: "https://wa.me/6588673343" },
-  { icon: Mail, label: "Email", valueKey: "details.email", href: "mailto:sgreddotmetal@gmail.com" },
-  { icon: MapPin, label: "Address", valueKey: "details.address" },
-  { icon: Clock, label: "Hours", valueKey: "details.hours" },
-]
+type SiteSettings = {
+  phone: string
+  whatsapp: string
+  email: string
+  address: string
+  google_maps_url: string
+  business_hours: string
+}
 
 export default function ContactContent() {
   const t = useTranslations("contact")
+  const settings = useRemoteJson<SiteSettings>("/api/settings", {
+    phone: "+65 8867 3343",
+    whatsapp: "https://wa.me/6588673343",
+    email: "sgreddotmetal@gmail.com",
+    address: "Blk 236, #05-141,\nBukit Batok East Ave 5,\nSingapore 650236",
+    google_maps_url:
+      "https://www.google.com/maps/search/?api=1&query=Blk%20236,%20%2305-141,%20Bukit%20Batok%20East%20Ave%205,%20Singapore%20650236",
+    business_hours: "7:00 AM – 11:00 PM (Daily)",
+  }, (payload) => {
+    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    return {
+      phone: siteSettings.phone ?? "+65 8867 3343",
+      whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343",
+      email: siteSettings.email ?? "sgreddotmetal@gmail.com",
+      address: siteSettings.address ?? "Blk 236, #05-141,\nBukit Batok East Ave 5,\nSingapore 650236",
+      google_maps_url:
+        siteSettings.google_maps_url ??
+        "https://www.google.com/maps/search/?api=1&query=Blk%20236,%20%2305-141,%20Bukit%20Batok%20East%20Ave%205,%20Singapore%20650236",
+      business_hours: siteSettings.business_hours ?? "7:00 AM – 11:00 PM (Daily)",
+    }
+  })
+
+  const contactDetails = [
+    { icon: Phone, label: "Phone", value: settings.phone, href: `tel:${settings.phone.replace(/\s+/g, "")}` },
+    { icon: MessageCircle, label: "WhatsApp", value: settings.whatsapp, href: settings.whatsapp },
+    { icon: Mail, label: "Email", value: settings.email, href: `mailto:${settings.email}` },
+    { icon: MapPin, label: "Address", value: settings.address, href: settings.google_maps_url },
+    { icon: Clock, label: "Hours", value: settings.business_hours },
+  ]
 
   return (
     <>
@@ -54,7 +85,6 @@ export default function ContactContent() {
             <div className="lg:col-span-2 space-y-6">
               {contactDetails.map((detail) => {
                 const Icon = detail.icon
-                const value = t(detail.valueKey)
                 const content = (
                   <div className="flex items-start gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-600/10 text-red-400">
@@ -62,7 +92,7 @@ export default function ContactContent() {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-400">{detail.label}</p>
-                      <p className="text-sm text-white whitespace-pre-line">{value}</p>
+                      <p className="text-sm text-white whitespace-pre-line">{detail.value}</p>
                     </div>
                   </div>
                 )

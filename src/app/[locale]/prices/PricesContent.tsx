@@ -4,26 +4,40 @@ import { useTranslations } from "next-intl"
 import { motion } from "framer-motion"
 import { MessageCircle, Phone } from "lucide-react"
 import AnimatedSection from "@/components/AnimatedSection"
+import { useRemoteJson } from "@/lib/useRemoteJson"
 
-const defaultPrices = [
-  { metal: "Copper (Bright)", price: "8.50 – 9.20", condition: "Clean, uncoated" },
-  { metal: "Copper (Mixed)", price: "6.80 – 7.50", condition: "Insulated, mixed grades" },
-  { metal: "Aluminium (Extrusions)", price: "1.80 – 2.20", condition: "Clean, dry" },
-  { metal: "Aluminium (Mixed)", price: "1.20 – 1.60", condition: "With contaminants" },
-  { metal: "Stainless Steel 304", price: "1.50 – 1.90", condition: "Clean, solids" },
-  { metal: "Stainless Steel 316", price: "2.00 – 2.50", condition: "Clean, solids" },
-  { metal: "Brass", price: "4.50 – 5.20", condition: "Clean, solids" },
-  { metal: "Lead", price: "1.80 – 2.30", condition: "Clean, solids" },
-  { metal: "Steel / Iron (Light)", price: "0.15 – 0.25", condition: "Light scrap" },
-  { metal: "Steel (Heavy)", price: "0.25 – 0.35", condition: "Heavy melting" },
-  { metal: "Zinc", price: "1.00 – 1.40", condition: "Clean, solids" },
-  { metal: "Electric Motors", price: "0.80 – 1.20", condition: "Complete units" },
-  { metal: "Copper Wire (Insulated)", price: "3.50 – 4.50", condition: "PVC insulated" },
-  { metal: "Aluminium Cans", price: "0.60 – 0.90", condition: "Compressed, clean" },
-]
+type SiteSettings = {
+  phone: string
+  whatsapp: string
+}
+
+type PriceRow = {
+  id: string
+  metal: string
+  price: string
+  condition: string
+  unit?: string
+}
+
+const emptyPrices: PriceRow[] = []
 
 export default function PricesContent() {
   const t = useTranslations("prices")
+  const settings = useRemoteJson<SiteSettings>("/api/settings", {
+    phone: "+65 8867 3343",
+    whatsapp: "https://wa.me/6588673343",
+  }, (payload) => {
+    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    return {
+      phone: siteSettings.phone ?? "+65 8867 3343",
+      whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343",
+    }
+  })
+
+  const prices = useRemoteJson<PriceRow[]>("/api/prices", emptyPrices, (payload) => {
+    const remotePrices = (payload as { prices?: PriceRow[] })?.prices
+    return Array.isArray(remotePrices) ? remotePrices : emptyPrices
+  })
 
   return (
     <>
@@ -61,9 +75,9 @@ export default function PricesContent() {
                   </tr>
                 </thead>
                 <tbody>
-                  {defaultPrices.map((row, i) => (
+                  {prices.map((row, i) => (
                     <motion.tr
-                      key={row.metal}
+                      key={row.id}
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
@@ -82,7 +96,7 @@ export default function PricesContent() {
           <p className="mt-6 text-center text-sm text-gray-500">{t("note")}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
-              href="https://wa.me/6588673343"
+              href={settings.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg bg-green-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-400"
@@ -91,7 +105,7 @@ export default function PricesContent() {
               {t("ctaWhatsApp")}
             </a>
             <a
-              href="tel:+6588673343"
+              href={`tel:${settings.phone.replace(/\s+/g, "")}`}
               className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-[#0f172a] transition-colors hover:bg-red-500"
             >
               <Phone className="h-4 w-4" />

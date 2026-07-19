@@ -11,6 +11,74 @@ export type PaymentStatus = "Unpaid" | "Partial" | "Paid" | "Refunded"
 
 export type CustomerPriority = "Low" | "Normal" | "High" | "Urgent"
 
+export type ContentKind = "price" | "testimonial" | "service" | "image" | "setting"
+
+export type ContentStatus = "draft" | "active" | "inactive" | "pending" | "approved" | "rejected" | "deleted"
+
+// ─── site_content ────────────────────────────────────────────────────────────
+export interface SiteContent {
+  id: string
+  kind: ContentKind
+  title: string
+  subtitle?: string | null
+  body?: string | null
+  value?: string | null
+  unit?: string | null
+  company?: string | null
+  rating?: number | null
+  image_url?: string | null
+  icon_key?: string | null
+  sort_order: number
+  is_active: boolean
+  status: ContentStatus
+  approved: boolean
+  approved_at?: string | null
+  approved_by?: string | null
+  metadata?: Record<string, unknown> | null
+  created_at: string
+  updated_at: string
+  deleted_at?: string | null
+}
+
+export type InsertSiteContent = Omit<SiteContent, "id" | "created_at" | "updated_at">
+
+export type UpdateSiteContent = Partial<Omit<SiteContent, "id" | "kind" | "created_at" | "updated_at">>
+
+// ─── site_settings ──────────────────────────────────────────────────────────
+export interface SiteSetting {
+  key: string
+  value: string | null
+  updated_at: string
+}
+
+export interface SiteSettingsPayload {
+  company_name?: string
+  logo_url?: string
+  phone?: string
+  whatsapp?: string
+  email?: string
+  address?: string
+  google_maps_url?: string
+  business_hours?: string
+  facebook?: string
+  instagram?: string
+  linkedin?: string
+  footer_text?: string
+}
+
+// ─── activity_log ───────────────────────────────────────────────────────────
+export interface ActivityLog {
+  id: string
+  actor_user_id?: string | null
+  actor_email?: string | null
+  entity_type: string
+  entity_id?: string | null
+  action: string
+  before_json?: Record<string, unknown> | null
+  after_json?: Record<string, unknown> | null
+  created_at: string
+}
+
 // ─── quote_requests ───────────────────────────────────────────────────────────
 export interface QuoteRequest {
   id: string

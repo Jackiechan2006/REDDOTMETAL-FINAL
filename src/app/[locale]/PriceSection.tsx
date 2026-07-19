@@ -3,24 +3,18 @@
 import { useTranslations } from "next-intl"
 import { motion } from "framer-motion"
 import AnimatedSection from "@/components/AnimatedSection"
+import { useRemoteJson } from "@/lib/useRemoteJson"
 
-const defaultPrices = [
-  { metal: "Copper (Bright)", price: "8.50 – 9.20", condition: "Clean, uncoated" },
-  { metal: "Copper (Mixed)", price: "6.80 – 7.50", condition: "Insulated, mixed grades" },
-  { metal: "Aluminium (Extrusions)", price: "1.80 – 2.20", condition: "Clean, dry" },
-  { metal: "Aluminium (Mixed)", price: "1.20 – 1.60", condition: "With contaminants" },
-  { metal: "Stainless Steel 304", price: "1.50 – 1.90", condition: "Clean, solids" },
-  { metal: "Stainless Steel 316", price: "2.00 – 2.50", condition: "Clean, solids" },
-  { metal: "Brass", price: "4.50 – 5.20", condition: "Clean, solids" },
-  { metal: "Lead", price: "1.80 – 2.30", condition: "Clean, solids" },
-  { metal: "Steel / Iron", price: "0.15 – 0.25", condition: "Light scrap" },
-  { metal: "Steel (Heavy)", price: "0.25 – 0.35", condition: "Heavy melting" },
-  { metal: "Zinc", price: "1.00 – 1.40", condition: "Clean, solids" },
-  { metal: "Electric Motors", price: "0.80 – 1.20", condition: "Complete units" },
-]
+type PriceRow = { id: string; metal: string; price: string; condition: string; updated_at?: string }
+
+const defaultPrices: PriceRow[] = []
 
 export default function PriceSection() {
   const t = useTranslations("home.prices")
+  const prices = useRemoteJson<PriceRow[]>("/api/prices", defaultPrices, (payload) => {
+    const remotePrices = (payload as { prices?: PriceRow[] })?.prices
+    return Array.isArray(remotePrices) ? remotePrices : defaultPrices
+  })
 
   return (
     <AnimatedSection className="border-t border-white/5 bg-[#0c1222] py-20">
@@ -40,7 +34,7 @@ export default function PriceSection() {
                 </tr>
               </thead>
               <tbody>
-                {defaultPrices.map((row, i) => (
+                {prices.map((row, i) => (
                   <motion.tr
                     key={row.metal}
                     initial={{ opacity: 0 }}

@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl"
 import { motion } from "framer-motion"
 import { Truck, Scale, Building2, Recycle, MapPin } from "lucide-react"
 import AnimatedSection from "@/components/AnimatedSection"
+import { useRemoteJson } from "@/lib/useRemoteJson"
 
 const iconMap: Record<string, React.ReactNode> = {
   "Scrap Collection": <Truck className="h-8 w-8" />,
@@ -39,7 +40,17 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export default function ServicesSection() {
   const t = useTranslations("home.services")
-  const items = t.raw("items") as { title: string; desc: string }[]
+  const fallbackItems = (t.raw("items") as { title: string; desc: string }[]).filter(
+    (item) => item.title !== "Industrial Pickup" && item.title !== "Pengambilan Industri" && item.title !== "工业取件" && item.title !== "தொழில்துறை பிக்கப்" && item.title !== "শিল্প পিকআপ"
+  )
+  const items = useRemoteJson<{ title: string; desc: string }[]>("/api/services", fallbackItems, (payload) => {
+    const services = (payload as { services?: { title: string; body?: string; subtitle?: string }[] })?.services
+    if (!Array.isArray(services) || services.length === 0) return fallbackItems
+    return services.map((service) => ({
+      title: service.title,
+      desc: service.body ?? service.subtitle ?? "",
+    }))
+  })
 
   return (
     <AnimatedSection className="py-20">

@@ -34,7 +34,7 @@
         { "title": "Submit Request", "desc": "Fill out our quick online form, WhatsApp us, or give us a call." },
         { "title": "Schedule Pickup", "desc": "We arrange a convenient same-day or next-day pickup at your location." },
         { "title": "Weigh & Grade", "desc": "Your scrap is weighed and graded at your site or our facility." },
-        { "title": "Get Paid Instantly", "desc": "Receive instant payment via bank transfer, PayNow, or cash on the spot." }
+        { "title": "Get Paid Immediately", "desc": "Receive immediate payment via bank transfer, PayNow, or cash on the spot." }
       ]
     },
     "whatWeCollect": {
@@ -69,7 +69,7 @@
       "features": [
         { "title": "Same-Day Service", "desc": "We respond within hours and pick up on the same day." },
         { "title": "Free Pickup", "desc": "No hidden fees. We collect your scrap metal at no cost." },
-        { "title": "Instant Payment", "desc": "Get paid instantly via PayNow, bank transfer, or cash." },
+        { "title": "Immediate Payment", "desc": "Get paid immediately via PayNow, bank transfer, or cash." },
         { "title": "Transparent Pricing", "desc": "Real-time market rates with clear weight and price breakdown." },
         { "title": "Licensed & Certified", "desc": "Fully licensed by NEA. Compliant with all regulations." },
         { "title": "We Cover All Areas", "desc": "Serving all of Singapore — East, West, North, South, Central." }
@@ -172,7 +172,7 @@
         { "title": "Get a Quote", "desc": "Send a photo of your scrap — we'll quote you instantly" },
         { "title": "Schedule Pickup", "desc": "Choose a convenient time slot for same-day collection" },
         { "title": "Weigh & Process", "desc": "Your scrap is weighed, graded, and processed on the spot" },
-        { "title": "Get Paid Instantly", "desc": "Receive instant payment via PayNow, bank transfer, or cash" }
+        { "title": "Get Paid Immediately", "desc": "Receive immediate payment via PayNow, bank transfer, or cash" }
       ]
     },
     "cta": {
@@ -200,7 +200,7 @@
       "steps": [
         { "number": 1, "title": "Send Photo & Details", "desc": "Take a photo of your scrap metal and WhatsApp or email it to us. Tell us the approximate weight and your location." },
         { "number": 2, "title": "Get Instant Quote & Schedule", "desc": "We'll reply within minutes with our best price. Agree on the price and pick a same-day pickup time that works for you." },
-        { "number": 3, "title": "We Collect, Weigh & Pay", "desc": "Our team arrives at your location, loads the scrap, weighs it in front of you, and you get paid instantly via PayNow or cash." }
+        { "number": 3, "title": "We Collect, Weigh & Pay", "desc": "Our team arrives at your location, loads the scrap, weighs it in front of you, and you get paid immediately via PayNow or cash." }
       ]
     },
     "form": {

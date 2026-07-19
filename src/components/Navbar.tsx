@@ -8,6 +8,12 @@ import { Menu, X, ChevronDown, Phone, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import LanguageSwitcher from "./LanguageSwitcher"
 import Image from "next/image"
+import { useRemoteJson } from "@/lib/useRemoteJson"
+
+type SiteSettings = {
+  phone: string
+  whatsapp: string
+}
 
 const navLinks: { href: string; label: string; dropdown?: { href: string; label: string }[] }[] = [
   { href: "/", label: "home" },
@@ -33,6 +39,16 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const settings = useRemoteJson<SiteSettings>("/api/settings", {
+    phone: "+65 8867 3343",
+    whatsapp: "https://wa.me/6588673343",
+  }, (payload) => {
+    const siteSettings = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
+    return {
+      phone: siteSettings.phone ?? "+65 8867 3343",
+      whatsapp: siteSettings.whatsapp ?? "https://wa.me/6588673343",
+    }
+  })
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -105,12 +121,12 @@ export default function Navbar() {
           )}
           <div className="ml-2 flex items-center gap-2">
             <LanguageSwitcher />
-            <a href="tel:+6588673343" className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-3 py-1.5 text-sm text-gray-300 transition-colors hover:border-red-500/50 hover:text-red-400">
+            <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-3 py-1.5 text-sm text-gray-300 transition-colors hover:border-red-500/50 hover:text-red-400">
               <Phone className="h-3.5 w-3.5" />
               <span className="hidden xl:inline">Call</span>
             </a>
             <a
-              href="https://wa.me/6588673343"
+              href={settings.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-3 py-1.5 text-sm text-gray-300 transition-colors hover:border-green-500/50 hover:text-green-400"
@@ -163,14 +179,14 @@ export default function Navbar() {
               </div>
             ))}
             <div className="flex items-center gap-3 pt-3">
-              <a
-                href="tel:+6588673343"
+                <a
+                  href={`tel:${settings.phone.replace(/\s+/g, "")}`}
                 className="flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-sm text-gray-300 hover:border-red-500/50"
               >
                 <Phone className="h-4 w-4" /> Call
               </a>
-              <a
-                href="https://wa.me/6588673343"
+                <a
+                  href={settings.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-sm text-gray-300 hover:border-green-500/50"
