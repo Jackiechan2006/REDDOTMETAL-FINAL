@@ -16,24 +16,26 @@ export default function AboutSection() {
 
   if (!content.about.title && !content.about.description) return null
 
+  const hasImage = !!content.about.image_url
+
   return (
-    <AnimatedSection className="py-20">
+    <AnimatedSection className="border-t border-white/5 py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            {content.about.title && (
-              <h2 className="text-3xl font-bold text-white sm:text-4xl">{content.about.title}</h2>
-            )}
-            {content.about.description && (
-              <p className="mt-6 text-lg leading-relaxed text-gray-400">{content.about.description}</p>
-            )}
-          </motion.div>
-          {content.about.image_url && (
+        {hasImage ? (
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div>
+              <div className="mb-12 text-center">
+                <h2 className="text-3xl font-bold text-white sm:text-4xl">{content.about.title}</h2>
+              </div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mx-auto max-w-3xl text-center text-lg leading-relaxed text-gray-300"
+              >
+                {content.about.description}
+              </motion.p>
+            </div>
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -48,8 +50,22 @@ export default function AboutSection() {
                 className="h-full w-full object-cover"
               />
             </motion.div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <>
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold text-white sm:text-4xl">{content.about.title}</h2>
+            </div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mx-auto max-w-3xl text-center text-lg leading-relaxed text-gray-300"
+            >
+              {content.about.description}
+            </motion.p>
+          </>
+        )}
       </div>
     </AnimatedSection>
   )
