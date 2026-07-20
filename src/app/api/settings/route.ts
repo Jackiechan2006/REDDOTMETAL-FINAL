@@ -15,6 +15,7 @@ const fallbackSettings = {
   facebook_url: "",
   instagram_url: "",
   linkedin_url: "",
+  carousell_url: "",
 }
 
 export async function GET() {

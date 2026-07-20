@@ -19,6 +19,7 @@ type SiteSettings = {
   facebook_url: string
   instagram_url: string
   linkedin_url: string
+  carousell_url: string
 }
 
 const footerLinks = [
@@ -50,6 +51,12 @@ const linkedinIcon = (
   </svg>
 )
 
+const carousellIcon = (
+  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M4.877 2.702C5.722 1.54 7.147.88 8.626.88c1.478 0 2.904.66 3.749 1.822l3.807 5.26-1.768 1.277-3.807-5.26c-.428-.592-1.08-.938-1.762-.938-.682 0-1.335.346-1.763.938L2.86 13.05l-1.768 1.277 5.784-8.068L4.877 2.702zM19.123 21.298c-.845 1.162-2.27 1.822-3.749 1.822-1.478 0-2.904-.66-3.749-1.822l-3.807-5.26 1.768-1.277 3.807 5.26c.428.592 1.08.938 1.762.938.682 0 1.335-.346 1.763-.938l3.807-5.26 1.768 1.277-5.784 8.068zM12 7.058l-3.705 5.164L12 17.386l3.705-5.164L12 7.058z"/>
+  </svg>
+)
+
 export default function Footer() {
   const t = useTranslations("common")
   const settings = useRemoteJson<SiteSettings>("/api/settings", {
@@ -64,6 +71,7 @@ export default function Footer() {
     facebook_url: "",
     instagram_url: "",
     linkedin_url: "",
+    carousell_url: "",
   }, (payload) => {
     const s = (payload as { settings?: Partial<SiteSettings> })?.settings ?? {}
     return {
@@ -78,8 +86,12 @@ export default function Footer() {
       facebook_url: s.facebook_url ?? "",
       instagram_url: s.instagram_url ?? "",
       linkedin_url: s.linkedin_url ?? "",
+      carousell_url: s.carousell_url ?? "",
     }
   })
+
+  const hasContactInfo = settings.phone || settings.whatsapp || settings.email || settings.address
+  const hasSocialLinks = settings.facebook_url || settings.instagram_url || settings.linkedin_url || settings.carousell_url
 
   return (
     <footer className="border-t border-white/10 bg-[#0f172a]">
@@ -122,6 +134,12 @@ export default function Footer() {
                   {linkedinIcon}
                 </a>
               )}
+              {settings.carousell_url && (
+                <a href={settings.carousell_url} target="_blank" rel="noopener noreferrer" aria-label="Carousell"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-gray-400 transition-colors hover:bg-white/10 hover:text-white">
+                  {carousellIcon}
+                </a>
+              )}
             </div>
             <div className="pt-2">
               <LanguageSwitcher />
@@ -143,75 +161,95 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-300">{t("footer.contact")}</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2 text-sm text-gray-400">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="hover:text-red-400 transition-colors">{settings.phone}</a>
-              </li>
-              <li>
-                <a href={settings.whatsapp} target="_blank" rel="noopener noreferrer"
-                  className="flex items-start gap-2 text-sm text-gray-400 transition-colors hover:text-green-400">
-                  <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                  WhatsApp: {settings.phone}
-                </a>
-              </li>
-              <li className="flex items-start gap-2 text-sm text-gray-400">
-                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                <a href={`mailto:${settings.email}`} className="hover:text-red-400 transition-colors break-all">{settings.email}</a>
-              </li>
-              <li className="flex items-start gap-2 text-sm text-gray-400">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                <a
-                  href={settings.google_maps_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-red-400"
-                >
-                  {settings.address}
-                </a>
-              </li>
-            </ul>
-          </div>
+          {hasContactInfo && (
+            <div>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-300">{t("footer.contact")}</h3>
+              <ul className="space-y-3">
+                {settings.phone && (
+                  <li className="flex items-start gap-2 text-sm text-gray-400">
+                    <Phone className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+                    <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="hover:text-red-400 transition-colors">{settings.phone}</a>
+                  </li>
+                )}
+                {settings.whatsapp && (
+                  <li>
+                    <a href={settings.whatsapp} target="_blank" rel="noopener noreferrer"
+                      className="flex items-start gap-2 text-sm text-gray-400 transition-colors hover:text-green-400">
+                      <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+                      WhatsApp: {settings.phone}
+                    </a>
+                  </li>
+                )}
+                {settings.email && (
+                  <li className="flex items-start gap-2 text-sm text-gray-400">
+                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+                    <a href={`mailto:${settings.email}`} className="hover:text-red-400 transition-colors break-all">{settings.email}</a>
+                  </li>
+                )}
+                {settings.address && (
+                  <li className="flex items-start gap-2 text-sm text-gray-400">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+                    <a
+                      href={settings.google_maps_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors hover:text-red-400"
+                    >
+                      {settings.address}
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
 
           {/* Hours + Social */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300">Operating Hours</h3>
-            <div className="flex items-start gap-2 text-sm text-gray-400">
-              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-              <span>{settings.business_hours}</span>
-            </div>
-            <div className="pt-2">
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-300">Follow Us</h3>
-              <div className="flex flex-col gap-2">
-                {settings.facebook_url && (
-                  <a href={settings.facebook_url} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-red-400">
-                    {facebookIcon}
-                    Facebook
-                  </a>
-                )}
-                {settings.instagram_url && (
-                  <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-red-400">
-                    {instagramIcon}
-                    Instagram
-                  </a>
-                )}
-                {settings.linkedin_url && (
-                  <a href={settings.linkedin_url} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-red-400">
-                    {linkedinIcon}
-                    LinkedIn
-                  </a>
-                )}
-                {!settings.facebook_url && !settings.instagram_url && !settings.linkedin_url && (
-                  <p className="text-xs text-gray-500">No social links configured.</p>
-                )}
+            {settings.business_hours && (
+              <>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300">Operating Hours</h3>
+                <div className="flex items-start gap-2 text-sm text-gray-400">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+                  <span>{settings.business_hours}</span>
+                </div>
+              </>
+            )}
+            {hasSocialLinks && (
+              <div className={settings.business_hours ? "pt-2" : ""}>
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-300">Follow Us</h3>
+                <div className="flex flex-col gap-2">
+                  {settings.facebook_url && (
+                    <a href={settings.facebook_url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-red-400">
+                      {facebookIcon}
+                      Facebook
+                    </a>
+                  )}
+                  {settings.instagram_url && (
+                    <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-red-400">
+                      {instagramIcon}
+                      Instagram
+                    </a>
+                  )}
+                  {settings.linkedin_url && (
+                    <a href={settings.linkedin_url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-red-400">
+                      {linkedinIcon}
+                      LinkedIn
+                    </a>
+                  )}
+                  {settings.carousell_url && (
+                    <a href={settings.carousell_url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-red-400">
+                      {carousellIcon}
+                      Carousell
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="pt-2">
+            )}
+            <div className={settings.business_hours || hasSocialLinks ? "pt-2" : ""}>
               <Link href="/admin">
                 <span className="text-xs text-gray-600 transition-colors hover:text-gray-400 cursor-pointer">Admin Panel</span>
               </Link>

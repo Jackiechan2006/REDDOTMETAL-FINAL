@@ -108,7 +108,7 @@ export default function ContactContent() {
               })}
               <div className="overflow-hidden rounded-xl border border-white/10">
                 <iframe
-                  src="https://www.google.com/maps/embed/v1/place?q=362%20Upper%20Paya%20Lebar%20Rd%2C%20%2305-15%20Da%20Jin%20Factory%20Building%2C%20Singapore%20534963&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                  src="https://www.google.com/maps/embed/v1/place?q=Blk+236+%2305-141+Bukit+Batok+East+Ave+5+Singapore+650236&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
                   width="100%"
                   height="220"
                   style={{ border: 0 }}
